@@ -1,0 +1,17 @@
+{
+    "title":"CS160-Interactive-Prototype-group8",
+    "description":"The first coded iteration of Aromafy, a project made by Group 8, the Hufflepuffs, from UC Berkeley CS160 fall 2016.",
+    "id":"cs160-interactive-prototype-group8.project.kinoma.marvell.com",
+    "tags":[
+        "emptySample"
+    ],
+    "Create":{
+        "main":"main"
+    },
+    "Element":{
+        "main":"main"
+    },
+    "iap140": {
+    	"main":"main"
+    }
+}

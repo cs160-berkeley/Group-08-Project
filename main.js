@@ -200,3 +200,26 @@ let Modal = Column.template($ => ({
 let mc = new MainContainer({});
 let is = new IntroScreen({});
 application.add(mc);
+
+//The screen named Group 4 in the figma prototype: the customize scent screen
+//Used a 375 x 667 screen to make this, don't know how it would look on other screen dimentions or other devices
+//Behaviors not implemented yet
+let intensity = 8;
+let timeHour = 5;
+let timeMinute = 30;
+let group4 = new Container({
+  left: 0, right: 0, top: 300, bottom: 0,
+  active: true,
+  contents: [new Label({style: new Style({color: "black", font: "24px"}), left: 75, top: 100, string: "Time"}),
+  			new Label({style: new Style({color: "black", font: "24px"}), right: 68, top: 100, string: "Intensity"}),
+  			new Container({left: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
+  			new Container({right: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
+  			new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
+  			new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
+  			new Picture({top: 200, left: 75,url:"http://i.imgur.com/OPaTPDB.png"}),
+  			new Picture({top: 265, left: 75, url:"http://i.imgur.com/CfWKqwY.png"}),
+  			new Picture({top: 200, left: 236,url:"http://i.imgur.com/OPaTPDB.png"}),
+  			new Picture({top: 265, left: 236, url:"http://i.imgur.com/CfWKqwY.png"})
+  			]
+  });
+//application.add(group4);

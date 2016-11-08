@@ -6,7 +6,11 @@
 * Design specifications/generalizations/guidelines we should follow, for consistency
 * Project roadmap and other important notes. I imagine much of this can go in the facebook chat as well
 
-## Templates, models, and other functions
+## Screens:
+* MainController - generic screen with header
+* new IntroScreen({}) - first screen seen by user, contains logo and "Get started" Button
+
+## Templates, models, constants, and other functions
 
 new header() - hard coded for main screen. Can accept parameters but doesn't use them. This should be changed to use params if we want different headers for each page
 
@@ -14,7 +18,13 @@ new Modal({string: "some string"}) - a simple modal window that pops up in the m
 
 new lbl({str: "some string", style: someStyle, touchFxn: someFxn}) - just put the uncalled function here and define it globally. Use nullFxn if you don't want any touch behavior
 
+### Constants
+
+* hasConnectedDevice - 0 if there is no connected device, 1 if there is (so that the initial connect a device screen can be skipped)
+
 ## Design Guidelines
+
+* Screen Dimension: IPhone 6: 375 x 667
 
 ### Styles
 * basicTextStyle: for normal text (14px black)

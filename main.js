@@ -16,7 +16,7 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-//TODO This is not the best scroller, it works but it covers up the header bar
+// TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
 // Scroller is only necessary for the calendar I believe
 
@@ -25,6 +25,7 @@ let headerTextStyle = new Style({ font: "bold italic 18px", color: "white"});
 let elemTextStyle = new Style({ font: "14px", color: "#3c4241"});
 let elemLinkStyle = new Style({ font: "italic 14px", color: "#007aff"}); //this is the apple Link color
 
+let hasConnectedDevice = 0;
 
 let MainContainer = Column.template($ => ({
     top: 0, bottom: 0, left: 0, right: 0,
@@ -46,9 +47,58 @@ let MainContainer = Column.template($ => ({
     ],
 }));
 
+let IntroScreen = Column.template($ => ({
+    top:0, bottom:0,left:0,right:0,
+    skin: new Skin({fill: "#0BCBCF"}),
+    contents: [
+        new IntroBlock(),
+        //TODO make this look nice
+    ]
+}));
+
+//TODO This make this look good
+let getStartedButton = new Container({
+    top:10, //TODO Might need to add other constraints
+    width:150,height:30,
+    skin: new Skin({fill: "white"}),
+    active:true,
+    contents: [
+        new Label({string: "Get Started", style: basicTextStyle})
+    ],
+    behavior: Behavior({
+        onTouchEnded(content,id,x,y,ticks) {
+            //TODO transition to home here
+            removeIntroScreen();
+        }
+    })
+})
+
+function removeIntroScreen() {
+    application.remove(is);
+}
+
+//TODO make this look good
+let IntroBlock = Column.template($ => ({
+    bottom:400, //TODO might need to add other constraints
+    contents: [
+        new Line({
+            height:120,width:375,
+            skin: new Skin({fill:"blue"}),
+            contents: [
+                new Label({string: "placeholder", style: headerTextStyle}),
+                new Picture({
+                    width:120,height:120, url: 'http://feelgrafix.com/data_images/out/12/857240-mountain-lake-wallpaper.jpg'
+                })
+            ]
+        }),
+        getStartedButton
+    ]
+}));
+
+
 let header = Line.template($ => ({
     top:0, left:0, right:0,
-    skin: new Skin({ fill: "007aff"}), //Apple safari skin, videos use #5ac8fa
+    skin: new Skin({ fill: "#007AFF"}), //Apple safari skin, videos use #5ac8fa
     contents: [
         new Container({
             top:0,left:0,right:0,bottom:0,
@@ -125,7 +175,7 @@ let Modal = Column.template($ => ({
             height:50, width:200, //TODO change values
             skin: new Skin({fill:"white"}),
             contents: [
-                new Label({string: $.string, style: blackTextStyle}),
+                new Label({string: $.string, style: basicTextStyle}),
 
             ]
         }),
@@ -148,4 +198,5 @@ let Modal = Column.template($ => ({
 
 
 let mc = new MainContainer({});
+let is = new IntroScreen({});
 application.add(mc);

@@ -98,6 +98,7 @@ let HomeScreen = Column.template( $ => ({
             horizontal: "left",
             behavior: Behavior({
                 onTouchEnded(content, id,x,y,ticks) {
+                	calendarScreen = new scheduleTemp();
                     transition(calendarScreen);
                 }
             })
@@ -472,8 +473,47 @@ let scentWheel = new Container({
 	]
 });
 		
-	
+// schedule of the device
+let scheduleTemp = Column.template( $ => ({    top:0,bottom:0,left:0,right:0,    skin: backgroundGray,    contents: [
+    	new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
+    	scheduleColumn    ]}))
 
+var greenSkin = new Skin({fill: "green"});var redSkin = new Skin({fill: "red"});var blueSkin = new Skin({fill: "blue"});var whiteBorderSkin = new Skin({    fill: "white",     borders: {left: 3, right: 3, top: 5, bottom: 5},     stroke: "black"});
+
+var pinkBorderSkin = new Skin({    fill: "#f7b7d2",     borders: {left: 3, right: 3, top: 5, bottom: 5},     stroke: "black"});var scheduleColumn = new Column({    left: 60, right: 60, top: 50, bottom:50,    skin: greenSkin,    contents: [
+    	new Line({height:30,  
+        	contents: [                new Label({string: "Mon ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),
+        		new Label({string: "Tue ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),				new Label({string: "Wed ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),
+				new Label({string: "Thu ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),
+				new Label({string: "Fri ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),
+				new Label({string: "Sat ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),
+				new Label({string: "Sun ", style: new Style({ font: "16.5", color: "black" }),horizontal: "center"}),            ]
+        }),                new Line({left: 0, right: 0, top: 0, bottom: 0, skin: pink,
+        	contents: [                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),            ]
+        }),               new Line({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin, 
+        	contents: [                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),            ]
+        }),
+            	new Line({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin,            contents: [                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),            ]        }),
+        
+             	new Line({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin, 
+        	contents: [                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),
+                new Content({left: 0, right: 0, top: 0, bottom: 0, skin: pinkBorderSkin}),            ]
+        }),     ]});
 
 //application.add(group4);
 currentStateScreen = new Container({

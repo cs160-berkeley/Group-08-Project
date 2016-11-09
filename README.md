@@ -12,7 +12,7 @@
 
 ## Templates, models, constants, and other functions
 
-new header() - hard coded for main screen. Can accept parameters but doesn't use them. This should be changed to use params if we want different headers for each page
+new header({left:"left title"(usually < signifying back), title: "title string", right: "right title" (usually + or new), touchRightFxn: uncalledFxn}) - Create header for each page. Will need to customize this for each page and maintain a stack of pages for the back functionality. TouchRightFxn will be called when the top right lebel is tapped
 
 new Modal({string: "some string"}) - a simple modal window that pops up in the middle of the screen. Position must be hard coded for screen size. Default confirmation string is currently "Okay!"
 

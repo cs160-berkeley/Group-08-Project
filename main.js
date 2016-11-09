@@ -21,17 +21,26 @@ import {VerticalScroller} from "scroller";
 // Scroller is only necessary for the calendar I believe
 
 let basicTextStyle = new Style({ font: "14px", color: "black" });
-let headerTextStyle = new Style({ font: "bold italic 18px", color: "white"});
+let headerTextStyle = new Style({ font: "bold italic 24px", color: "white"});
+let headerSymbolStyle = new Style({ font: "bold italic 30px", color: "white"});
 let elemTextStyle = new Style({ font: "14px", color: "#3c4241"});
 let elemLinkStyle = new Style({ font: "italic 14px", color: "#007aff"}); //this is the apple Link color
+let mainTextStyle = new Style({ font: "bold italic 50px", color: "white"});
 
+
+let currentScreen;
+let screenStack = new Array();
 let hasConnectedDevice = 0;
+
+let mainMainContainer = new Container({
+    top:0,left:0,right:0,bottom:0
+});
 
 let MainContainer = Column.template($ => ({
     top: 0, bottom: 0, left: 0, right: 0,
     skin: new Skin({ fill: "#efeff4" }), //default Apple background
     contents: [
-        new header(),
+        new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
         new VerticalScroller($, {
             name: 'scroller',
             contents: [
@@ -68,26 +77,25 @@ let getStartedButton = new Container({
     behavior: Behavior({
         onTouchEnded(content,id,x,y,ticks) {
             //TODO transition to home here
-            removeIntroScreen();
+            //removeIntroScreen();
+            mmc.remove(is);
+            mmc.add(mc);
         }
     })
 })
 
-function removeIntroScreen() {
-    application.remove(is);
-}
-
 //TODO make this look good
 let IntroBlock = Column.template($ => ({
-    bottom:400, //TODO might need to add other constraints
+    top:300, width:350, //TODO might need to add other constraints
     contents: [
         new Line({
-            height:120,width:375,
-            skin: new Skin({fill:"blue"}),
+            height:120,left: 20,
+            //skin: new Skin({fill:"blue"}),
             contents: [
-                new Label({string: "placeholder", style: headerTextStyle}),
+                new Label({string: "Aromafy", style: mainTextStyle, height:120}),
                 new Picture({
-                    width:120,height:120, url: 'http://feelgrafix.com/data_images/out/12/857240-mountain-lake-wallpaper.jpg'
+                    width:120,height:120, 
+                    url: 'http://static.greatbigcanvas.com/images/square/national-geographic/mountains-of-baffin-island-are-reflected-in-fjords-northwest-territories-canada,ng525960.jpg?max=128'
                 })
             ]
         }),
@@ -97,21 +105,22 @@ let IntroBlock = Column.template($ => ({
 
 
 let header = Line.template($ => ({
-    top:0, left:0, right:0,
+    top:0, left:0, right:0, height:40,
     skin: new Skin({ fill: "#007AFF"}), //Apple safari skin, videos use #5ac8fa
     contents: [
         new Container({
             top:0,left:0,right:0,bottom:0,
             contents: [
             new Label({
-                string: "Left",
+                string: $.left,
                 top:5,
-                style: headerTextStyle,
+                style: headerSymbolStyle,
                 horizontal: "left",
                 active:true,
                 behavior: Behavior({
                     onTouchEnded(content,id,x,y,ticks) {
                         //TODO what to do when left header clicked
+                        goBack()
                     }
                 })
             }),
@@ -122,7 +131,7 @@ let header = Line.template($ => ({
             name: "title",
             contents: [
             new Label({
-                string: "Center header",
+                string: $.title,
                 top:5,
                 style: headerTextStyle
             }),
@@ -132,14 +141,17 @@ let header = Line.template($ => ({
             top:0,left:0,right:0,bottom:0,
             contents: [
             new Label({
-                string: "Right",
+                string: $.right,
                 top:5,
-                style: headerTextStyle,
+                style: headerSymbolStyle,
                 horizontal: "right",
                 active:true,
                 behavior: Behavior({
                     onTouchEnded(content,id,x,y,ticks) {
                         //TODO what to do when right header clicked
+                        if ($.touchRightFxn) {
+                            $.touchRightFxn()
+                        }
                     }
                 })
             }),
@@ -196,10 +208,27 @@ let Modal = Column.template($ => ({
     ]
 }));
 
+function transition(destination) {
+    screenStack.push(currentScreen);
+    mmc.remove(currentScreen);
+    mmc.add(destination);
+}
 
+function goBack() {
+    mmc.remove(currentScreen);
+    currentScreen = screenStack.pop();
+    if (!currentScreen) {
+        currentScreen = homescreen;
+    }
+    mmc.add(currentScreen);
+}
+
+let mmc = mainMainContainer;
 let mc = new MainContainer({});
 let is = new IntroScreen({});
-application.add(mc);
+application.add(mmc);
+mmc.add(is)
+currentScreen = is;
 
 //The screen named Group 4 in the figma prototype: the customize scent screen
 //Used a 375 x 667 screen to make this, don't know how it would look on other screen dimentions or other devices

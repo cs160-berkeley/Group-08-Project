@@ -20,7 +20,7 @@ new lbl({str: "some string", style: someStyle, touchFxn: someFxn}) - just put th
 
 ### Constants
 
-* hasConnectedDevice - 0 if there is no connected device, 1 if there is (so that the initial connect a device screen can be skipped)
+* hasConnectedDevice - 0 if there is no connected device, 1 if there is (so that the initial connect a device screen can be skipped). Corresponds to the existance of a device summary on the bottom of the pairing page
 
 ## Design Guidelines
 

@@ -109,6 +109,7 @@ let HomeScreen = Column.template( $ => ({
             string: "Create a Scent",
             active:true,
             top:10, left: 20,
+            style: largerTextStyle,
             horizontal: "left",
             behavior: Behavior({
                 onTouchEnded(content, id,x,y,ticks) {
@@ -224,6 +225,117 @@ let header = Line.template($ => ({
     ]
 }));
 
+let deviceEntry = Column.template($ => ({
+    top:0,bottom:10, left:5,right:0,
+    width:200,
+    contents: [
+        new Label({string: $.name, style: basicTextStyle, left:0}),
+        new Label({string: $.dist + "ft from you", style: elemTextStyle,left:10}),
+        new Label({string: $.status, style: elemTextStyle,left:10})
+    ]
+}));
+
+let connectedMenu = new Container({
+    name: "connectedMenu",
+    top: 40,
+    height: 30, width: 200,
+    skin: new Skin({fill: "#C1FCCC"}),
+    active:true,
+    contents: [
+        new Label({ style: basicTextStyle, string: "John's Aroma Dispenser"})
+    ],
+    behavior: Behavior ({
+        onTouchEnded(content,id,x,y,ticks) {
+            content.container.container.remove(yourDevice);
+            content.container.add(expandedConnectMenu);
+            content.container.container.add(yourDevice);
+            content.container.remove(content);
+        }
+    })
+})
+
+let yourDevice = new Column({
+    bottom: 20,
+    left:0,
+    contents: [
+        new Label({string: "Your Device", style: largerTextStyle}),
+        new Line({
+            top:0,bottom:0,left:10,right:0,
+            contents: [
+                new Picture({
+
+                    height:120,width:120,
+                    url: 'http://cdn.pocket-lint.com/r/c/742x526/assets/images/phpadneab.jpg'
+                }),
+                new Column({
+                    top:10,left:0,right:0,bottom:0,
+                    contents: [
+                        new Label({string: "John's Aroma Dispenser", style: elemTextStyle,left:10}),
+                        new Label({string: "Currently connected", style: elemTextStyle,left:10}),
+                        new Label({string: "Currently relseasing scent:", left:10, style: elemTextStyle}),
+                        new Label({string: "After the rain, until 5:30pm", left:20, style: elemTextStyle}),
+                    ]
+                })
+            ]
+        })
+    ]
+})
+
+let expandedConnectMenu = new Column({
+    name: "expandedConnectMenu",
+    top: 40,
+    width: 200,
+    skin: new Skin({fill: "#BFCBFF"}),
+    active:true,
+    contents: [
+        new deviceEntry({name: "John's Aroma dispenser", dist:60, status: "Remembered"}),
+        new deviceEntry({name: "Neighbor's Aroma dispenser", dist: 200, status: "Password protected"})
+    ],
+    behavior: Behavior ({
+        onTouchEnded(content,id,x,y,ticks) {
+            if (hasConnectedDevice) {
+                content.container.container.remove(yourDevice);
+            }
+            content.container.add(connectedMenu);
+            content.container.container.add(yourDevice);
+            content.container.remove(content);
+            hasConnectedDevice = 1;
+        }
+    })
+})
+
+let ConnectScreen = Column.template( $ => ({
+    top:0,bottom:0,left:0,right:0,
+    skin: backgroundGray,
+    contents: [
+        new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
+        new Label({
+            string: "Device link",
+            top:20,
+            height:40,
+            style: new Style({ font: "34px", color: "black" }),
+            horizontal: "center"
+        }),
+        new Container({
+            name: "connectMenu",
+            top: 40,
+            height: 30, width: 200,
+            skin: new Skin({fill: "#BFCBFF"}),
+            active:true,
+            contents: [
+                new Label({ style: basicTextStyle, string: "Select Device         v"})
+            ],
+            behavior: Behavior ({
+                onTouchEnded(content,id,x,y,ticks) {
+                    content.container.add(expandedConnectMenu);
+                    content.container.remove(content);
+                }
+            })
+        })
+
+    ]
+}));
+
 //create a label with label = new lbl({str: "some string", style: someStyle, touchFxn: uncalledFxn (if any)}) 
 // Also include params to the touch function in the label params
 let lbl = Label.template($ => ({
@@ -283,7 +395,7 @@ function goBack() {
     mmc.remove(currentScreen);
     currentScreen = screenStack.pop();
     if (!currentScreen) {
-        currentScreen = homescreen;
+        currentScreen = hs;
     }
     mmc.add(currentScreen);
 }
@@ -292,7 +404,7 @@ let mmc = mainMainContainer;
 let mc = new MainContainer({});
 let is = new IntroScreen({});
 let hs = new HomeScreen({});
-let connectScreen = new MainContainer({});
+let connectScreen = new ConnectScreen({});
 let currentStateScreen = new MainContainer({});
 let calendarScreen = new MainContainer({});
 let newScentScreen = new MainContainer({});

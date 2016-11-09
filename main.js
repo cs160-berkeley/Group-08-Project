@@ -21,12 +21,13 @@ import {VerticalScroller} from "scroller";
 // Scroller is only necessary for the calendar I believe
 
 let basicTextStyle = new Style({ font: "14px", color: "black" });
+let largerTextStyle = new Style({ font: "22px", color: "black" });
 let headerTextStyle = new Style({ font: "bold italic 24px", color: "white"});
 let headerSymbolStyle = new Style({ font: "bold italic 30px", color: "white"});
 let elemTextStyle = new Style({ font: "14px", color: "#3c4241"});
 let elemLinkStyle = new Style({ font: "italic 14px", color: "#007aff"}); //this is the apple Link color
 let mainTextStyle = new Style({ font: "bold italic 50px", color: "white"});
-
+let backgroundGray = new Skin({fill: "#efeff4"}) //default apple background color
 
 let currentScreen;
 let screenStack = new Array();
@@ -38,7 +39,7 @@ let mainMainContainer = new Container({
 
 let MainContainer = Column.template($ => ({
     top: 0, bottom: 0, left: 0, right: 0,
-    skin: new Skin({ fill: "#efeff4" }), //default Apple background
+    skin: backgroundGray,
     contents: [
         new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
         new VerticalScroller($, {
@@ -55,6 +56,68 @@ let MainContainer = Column.template($ => ({
         })
     ],
 }));
+
+let HomeScreen = Column.template( $ => ({
+    top:0,bottom:0,left:0,right:0,
+    skin: backgroundGray,
+    contents: [
+        new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
+        new Label({
+            string: "Welcome Home",
+            top:20,
+            height:40,
+            style: new Style({ font: "34px", color: "black" }),
+            horizontal: "center"
+        }),
+        new Label({
+            string: "Connect your device",
+            active:true,
+            top:10, left: 20,
+            horizontal: "left",
+            style: largerTextStyle,
+            behavior: Behavior({
+                onTouchEnded(content, id,x,y,ticks) {
+                    transition(connectScreen);
+                }
+            })
+        }),
+        new Label({
+            string: "Create and Manage Schedules",
+            active:true,
+            top:10, left: 20,
+            style: largerTextStyle,
+            horizontal: "left",
+            behavior: Behavior({
+                onTouchEnded(content, id,x,y,ticks) {
+                    transition(calendarScreen);
+                }
+            })
+        }),
+        new Label({
+            string: "Current Scent State",
+            active:true,
+            top:10, left: 20,
+            horizontal: "left",
+            style: largerTextStyle,
+            behavior: Behavior({
+                onTouchEnded(content, id,x,y,ticks) {
+                    transition(currentStateScreen);
+                }
+            })
+        }),
+        new Label({
+            string: "Create a Scent",
+            active:true,
+            top:10, left: 20,
+            horizontal: "left",
+            behavior: Behavior({
+                onTouchEnded(content, id,x,y,ticks) {
+                    transition(newScentScreen);
+                }
+            })
+        })
+    ]
+}))
 
 let IntroScreen = Column.template($ => ({
     top:0, bottom:0,left:0,right:0,
@@ -79,7 +142,8 @@ let getStartedButton = new Container({
             //TODO transition to home here
             //removeIntroScreen();
             mmc.remove(is);
-            mmc.add(mc);
+            mmc.add(hs);
+            currentScreen = hs;
         }
     })
 })
@@ -212,6 +276,7 @@ function transition(destination) {
     screenStack.push(currentScreen);
     mmc.remove(currentScreen);
     mmc.add(destination);
+    currentScreen = destination;
 }
 
 function goBack() {
@@ -226,6 +291,12 @@ function goBack() {
 let mmc = mainMainContainer;
 let mc = new MainContainer({});
 let is = new IntroScreen({});
+let hs = new HomeScreen({});
+let connectScreen = new MainContainer({});
+let currentStateScreen = new MainContainer({});
+let calendarScreen = new MainContainer({});
+let newScentScreen = new MainContainer({});
+
 application.add(mmc);
 mmc.add(is)
 currentScreen = is;
@@ -239,7 +310,9 @@ let timeMinute = 30;
 let group4 = new Container({
   left: 0, right: 0, top: 300, bottom: 0,
   active: true,
-  contents: [new Label({style: new Style({color: "black", font: "24px"}), left: 75, top: 100, string: "Time"}),
+  skin: backgroundGray,
+  contents: [
+            new Label({style: new Style({color: "black", font: "24px"}), left: 75, top: 100, string: "Time"}),
   			new Label({style: new Style({color: "black", font: "24px"}), right: 68, top: 100, string: "Intensity"}),
   			new Container({left: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
   			new Container({right: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
@@ -252,3 +325,11 @@ let group4 = new Container({
   			]
   });
 //application.add(group4);
+currentStateScreen = new Column({
+    top:0,bottom:0,left:0,right:0,
+    skin: backgroundGray,
+    contents: [
+        new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
+        group4
+    ]
+});

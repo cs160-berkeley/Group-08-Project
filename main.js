@@ -28,6 +28,15 @@ let elemTextStyle = new Style({ font: "14px", color: "#3c4241"});
 let elemLinkStyle = new Style({ font: "italic 14px", color: "#007aff"}); //this is the apple Link color
 let mainTextStyle = new Style({ font: "bold italic 50px", color: "white"});
 let backgroundGray = new Skin({fill: "#efeff4"}) //default apple background color
+let scentText = new Style({ font: "24px", color: "white" });
+
+var currentScent = "";
+let green = new Skin({fill: "green"});
+let pink = new Skin({fill: "#f7b7d2"});
+let blue = new Skin({fill: "blue"});
+let purple = new Skin({fill: "#c282ed"});
+let orange = new Skin({fill: "#edc082"});
+let lightblue = new Skin({fill: "#b7e9f7"});
 
 let currentScreen;
 let screenStack = new Array();
@@ -436,12 +445,43 @@ let group4 = new Container({
   			new Picture({top: 265, left: 236, url:"http://i.imgur.com/CfWKqwY.png"})
   			]
   });
+  
+var scent = Container.template($ => ({
+	active: true, width: 100, height: 100, right: $.right, left: $.left, top: $.top,
+	behavior: Behavior({
+		onTouchEnded: function(content) {
+			currentScent = $.string
+			trace("Current Scent selected: " + currentScent + "\n");
+		}
+	}),
+	contents: [
+		Text($, {top: 0, bottom: 0, left: 0, right: 0, string: $.string,style:scentText, skin: $.skin})
+	]
+}));  
+
+let scentWheel = new Container({
+	left: 0, right: 0, top: 100, 
+	active: true,
+	contents: [
+		new scent({ string: "Freshly Cut Grass", top: 0, left: 37.5, skin: green }),
+		new scent({ string: "Mom's Favorite", top: 0, left: 137.5, skin: pink }),
+		new scent({ string: "Ocean Breeze", top: 0, right:38, skin: blue }),
+		new scent({ string: "For Sally", top: 100, left:37.5, skin: purple }),
+		new scent({ string: "Tangerine", top: 100, left:137.5, skin: orange }),
+		new scent({ string: "Forget Me Not", top: 100, right:38, skin: lightblue })
+	]
+});
+		
+	
+
+
 //application.add(group4);
-currentStateScreen = new Column({
+currentStateScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
         new header({left:"<", right:"+", title:"Aromafy home", touchRightFxn: nullFxn}),
-        group4
+        group4,
+        scentWheel
     ]
 });

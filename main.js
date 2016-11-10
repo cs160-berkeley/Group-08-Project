@@ -402,6 +402,10 @@ function transition(destination) {
 }
 
 function goBack() {
+	if (currentScreen == currentStateScreen){
+		application.remove(tempTimeLabel);
+		application.remove(tempIntensityLabel);
+	}
     mmc.remove(currentScreen);
     currentScreen = screenStack.pop();
     if (!currentScreen) {
@@ -429,6 +433,10 @@ currentScreen = is;
 let intensity = 8;
 let timeHour = 5;
 let timeMinute = 30;
+let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":" + timeMinute}));
+let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity}));
+let tempIntensityLabel = new intensityLabel();
+let tempTimeLabel = new timeLabel();
 let group4 = new Container({
   left: 0, right: 0, top: 300, bottom: 0,
   active: true,
@@ -438,15 +446,74 @@ let group4 = new Container({
   			new Label({style: new Style({color: "black", font: "24px"}), right: 68, top: 100, string: "Intensity"}),
   			new Container({left: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
   			new Container({right: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
-  			new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
-  			new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
-  			new Picture({top: 200, left: 75,url:"http://i.imgur.com/OPaTPDB.png"}),
-  			new Picture({top: 265, left: 75, url:"http://i.imgur.com/CfWKqwY.png"}),
-  			new Picture({top: 200, left: 236,url:"http://i.imgur.com/OPaTPDB.png"}),
-  			new Picture({top: 265, left: 236, url:"http://i.imgur.com/CfWKqwY.png"})
+  			//new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
+  			//new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
+  			new Picture({top: 200, left: 75,url:"http://i.imgur.com/OPaTPDB.png", active: true, 
+  				behavior: Behavior({ 
+  				onTouchEnded: function(content) { 
+  					timeMinute += 10;
+  					if (timeMinute == 60) {
+  						timeHour += 1;
+  						timeMinute = 0;
+  					}
+  					application.remove(tempTimeLabel);
+  					if (timeMinute == 0){
+  						tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
+  					} else {
+  						tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":" + timeMinute});
+  					}
+  					application.add(tempTimeLabel);  					 					  					
+  				}, onDisplayed: function(content) {
+  					application.add(tempTimeLabel);
+  					application.add(tempIntensityLabel);
+  				}})
+  			}),
+  			new Picture({top: 265, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+  				behavior: Behavior({ 
+  				onTouchEnded: function(content) { 
+  					timeMinute -= 10;
+  					if (timeMinute == -10) {
+  						timeHour -= 1;
+  						timeMinute = 50;
+  					}
+  					application.remove(tempTimeLabel);
+  					if (timeMinute == 0){
+  						tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
+  					} else {
+  						tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":" + timeMinute});
+  					}
+  					application.add(tempTimeLabel);  					 					  					
+  				}})
+  			}),
+  			new Picture({top: 200, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
+  				behavior: Behavior({ 
+  				onTouchEnded: function(content) { 
+  					if (intensity < 10) {
+  						intensity += 1;
+  					}
+  					application.remove(tempIntensityLabel);
+  					if (intensity == 10) {
+  						tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 445, string: intensity});
+  					} else {
+  						tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity});
+  					}
+  					application.add(tempIntensityLabel);  					 					  					
+  				}})
+  			}),
+  			new Picture({top: 265, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+  				behavior: Behavior({ 
+  				onTouchEnded: function(content) { 
+  					if (intensity > 0) {
+  						intensity -= 1;
+  					}
+  					application.remove(tempIntensityLabel);
+  					tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity});
+  					application.add(tempIntensityLabel);  					 					  					
+  				}})
+  			})
   			]
   });
-  
+ 
 var scent = Container.template($ => ({
 	active: true, width: 100, height: 100, right: $.right, left: $.left, top: $.top,
 	behavior: Behavior({

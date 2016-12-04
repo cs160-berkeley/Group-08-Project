@@ -40,25 +40,25 @@ export var isCurrentScent = 0;
 export var currentColor = whiteBorderSkin;
 export var saveSkin = orange;
 
-let intensity = 8;
-export var timeHour = 5;
+let intensity = 5;
+export var timeHour = 1;
 let timeMinute = 30;
 let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs" }));//":" + timeMinute}));
 let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity}));
 export var tempIntensityLabel = new intensityLabel();
 export var tempTimeLabel = new timeLabel();
 export var group4 = new Container({
-  left: 0, right: 0, top: 300, bottom: 0,
+  left: 0, right: 0, top: 400, bottom: 0,
   active: true,
   skin: backgroundGray,
   contents: [
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 100, string: "Duration"}),
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 68, top: 100, string: "Intensity"}),
-            new Container({left: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
-            new Container({right: 55, top: 140, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
+            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 0, string: "Duration"}),
+            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 68, top: 0, string: "Intensity"}),
+            new Container({left: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
+            new Container({right: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
-            new Picture({top: 200, left: 75,url:"http://i.imgur.com/OPaTPDB.png", active: true, 
+            new Picture({top: 100, left: 75,url:"http://i.imgur.com/OPaTPDB.png", active: true, 
                 behavior: Behavior({ 
                 onTouchEnded: function(content) {
                     // timeMinute += 10;
@@ -83,7 +83,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);
                 }})
             }),
-            new Picture({top: 265, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 165, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     // timeMinute -= 10;
@@ -105,7 +105,7 @@ export var group4 = new Container({
                     application.add(tempTimeLabel);                                                             
                 }})
             }),
-            new Picture({top: 200, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
+            new Picture({top: 100, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity < 10) {
@@ -120,7 +120,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);                                                            
                 }})
             }),
-            new Picture({top: 265, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 165, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity > 0) {

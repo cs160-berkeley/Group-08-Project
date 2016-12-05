@@ -16,7 +16,8 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate";
+import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate"
+import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
 // Scroller is only necessary for the calendar I believe
@@ -394,6 +395,10 @@ export function goBack() {
         application.remove(tempTimeLabel);
         application.remove(tempIntensityLabel);
     }
+    if (currentScreen == modifyStateScreen){
+        application.remove(tempTimeLabelM);
+        application.remove(tempIntensityLabelM);
+    }
     mmc.remove(currentScreen);
     currentScreen = screenStack.pop();
     if (!currentScreen) {
@@ -409,6 +414,7 @@ let is = new IntroScreen({});
 let hs = new HomeScreen({});
 let connectScreen = new ConnectScreen({});
 let currentStateScreen = new MainContainer({});
+let modifyStateScreen = new MainContainer({});
 let calendarScreen = new MainContainer({});
 let newScentScreen = new MainContainer({});
  
@@ -441,7 +447,11 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             selected_j = $.j;
                             selected_i = $.i;
                             timeStatus.string = calendarTime(selected_j, selected_i);
-                            transition(currentStateScreen);
+                            if (has_scent[selected_j][selected_i]){
+                            	transition(modifyStateScreen);
+                            } else {
+                            	transition(currentStateScreen);
+                            }
                         }
                     })
                 }))
@@ -765,7 +775,8 @@ let plusButton = new Picture({
 let timeStatus = new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}),  left: 10, top: 350, string:""}) 
 
 
-//application.add(group4);
+//application.add(group4);\
+
 currentStateScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
@@ -775,6 +786,15 @@ currentStateScreen = new Container({
         group4,
         scents,
         plusButton
+    ]
+});
+modifyStateScreen = new Container({
+    top:0,bottom:0,left:0,right:0,
+    skin: backgroundGray,
+    contents: [
+        new header({left:"<", right:"", title:"Modify a Scent!", touchRightFxn: returnToCal}),
+        group4M,
+        scentsM
     ]
 });
  

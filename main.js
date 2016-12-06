@@ -570,12 +570,11 @@ function remove_scent(i,j) {
     let j_copy = j;
 
     while (!starts_scent[j][i]) {
-        // calendar_blocks[j][i].skin = new Skin({
-        //     fill: whiteBorderSkin,
-        //     borders: {left: 2, right: 2, top: 1, bottom: 1},
-        //     stroke: "black"
-        // })
-        calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
+        calendar_blocks[j][i].skin = new Skin({
+            fill: whiteBorderSkin,
+            borders: {left: 2, right: 2, top: 1, bottom: 1},
+            stroke: "black"
+        })
         has_scent[j][i] = false;
         i--;
         if (i < 0) {
@@ -586,24 +585,22 @@ function remove_scent(i,j) {
             j = 6;
         }
     }
-    // calendar_blocks[j][i].skin = new Skin({
-    //     fill: whiteBorderSkin,
-    //     borders: {left: 2, right: 2, top: 1, bottom: 1},
-    //     stroke: "black"
-    // })
-    calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
+    calendar_blocks[j][i].skin = new Skin({
+        fill: whiteBorderSkin,
+        borders: {left: 2, right: 2, top: 1, bottom: 1},
+        stroke: "black"
+    })
     has_scent[j][i] = false;
     starts_scent[j][i] = false;
     i = i_copy;
     j = j_copy;
 
     while (!ends_scent[j][i]) {
-        // calendar_blocks[j][i].skin = new Skin({
-        //     fill: whiteBorderSkin,
-        //     borders: {left: 2, right: 2, top: 1, bottom: 1},
-        //     stroke: "black"
-        // })
-        calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
+        calendar_blocks[j][i].skin = new Skin({
+            fill: whiteBorderSkin,
+            borders: {left: 2, right: 2, top: 1, bottom: 1},
+            stroke: "black"
+        })
         has_scent[j][i] = false;
         i++;
         if (i > 23) {
@@ -614,12 +611,11 @@ function remove_scent(i,j) {
             j = 0;
         }
     }
-    // calendar_blocks[j][i].skin = new Skin({
-    //     fill: whiteBorderSkin,
-    //     borders: {left: 2, right: 2, top: 1, bottom: 1},
-    //     stroke: "black"
-    // })
-    calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
+    calendar_blocks[j][i].skin = new Skin({
+        fill: whiteBorderSkin,
+        borders: {left: 2, right: 2, top: 1, bottom: 1},
+        stroke: "black"
+    })
     has_scent[j][i] = false;
     ends_scent[j][i] = false;
 
@@ -818,7 +814,7 @@ currentStateScreen = new Container({
         timeStatus,
         group4,
         scents,
-        plusButton
+        //plusButton
     ]
 });
 modifyStateScreen = new Container({

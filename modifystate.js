@@ -1,5 +1,6 @@
 import {returnToCal} from "main";
-import {isCurrentScent, currentScent, currentScentString, currentColor, saveSkin} from "scentstate";
+import {isCurrentScent, currentColor, saveSkin, currentScent, currentScentString} from "scentstate";
+
 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});

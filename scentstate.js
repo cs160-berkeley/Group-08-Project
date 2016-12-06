@@ -40,23 +40,23 @@ export var isCurrentScent = 0;
 export var currentColor = whiteBorderSkin;
 export var saveSkin = orange;
 
-let intensity = 5;
-export var timeHour = 1;
+let intensity = 50;
+export var timeHour = 4;
 let timeMinute = 30;
-let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs" }));//":" + timeMinute}));
-let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity}));
+let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 425, string: timeHour + " hrs" }));//":" + timeMinute}));
+let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity + "%"}));
 export var tempIntensityLabel = new intensityLabel();
 export var tempTimeLabel = new timeLabel();
 export var group4 = new Container({
-  left: 0, right: 0, top: 400, bottom: 0,
+  left: 0, right: 0, top: 380, bottom: 0,
   active: true,
   skin: backgroundGray,
   contents: [
-            new Container({left: 105, top: 290, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
+  			new Container({left: 105, top: 230, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
                 onTouchEnded: function(content) {returnToCal(timeHour) }})}),
-            new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 135, top: 295, string: "Save Changes"}),
+  			new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 145, top: 235, string: "Add Scent"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 0, string: "Duration"}),
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 68, top: 0, string: "Intensity"}),
+            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 75, top: 0, string: "Intensity"}),
             new Container({left: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             new Container({right: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
@@ -74,7 +74,7 @@ export var group4 = new Container({
                         timeHour = 7*24;
                     }
                     application.remove(tempTimeLabel);
-                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs"});
+                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 425, string: timeHour + " hrs"});
                     // if (timeMinute == 0){
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
                     // } else {
@@ -99,7 +99,7 @@ export var group4 = new Container({
                         timeHour = 1;
                     }
                     application.remove(tempTimeLabel);
-                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs"});
+                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 425, string: timeHour + " hrs"});
                     // if (timeMinute == 0){
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
                     // } else {
@@ -111,14 +111,14 @@ export var group4 = new Container({
             new Picture({top: 100, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
-                    if (intensity < 10) {
-                        intensity += 1;
+                    if (intensity < 100) {
+                        intensity += 10;
                     }
                     application.remove(tempIntensityLabel);
-                    if (intensity == 10) {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 445, string: intensity});
+                    if (intensity == 100) {
+                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 240, top: 425, string: intensity+"%"});
                     } else {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity});
+                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity+"%"});
                     }
                     application.add(tempIntensityLabel);                                                            
                 }})
@@ -127,10 +127,15 @@ export var group4 = new Container({
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity > 0) {
-                        intensity -= 1;
+                        intensity -= 10;
                     }
                     application.remove(tempIntensityLabel);
-                    tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity});
+                    if (intensity == 0){
+                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 425, string: intensity+"%"});
+                    } else {
+                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity+"%"});
+                    }
+                   
                     application.add(tempIntensityLabel);                                                            
                 }})
             })

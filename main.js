@@ -16,7 +16,7 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate";
+import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate"
 import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
@@ -24,8 +24,8 @@ import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate
  
 let basicTextStyle = new Style({ font: "24px Brandon Grotesque", color: "black" });
 let largerTextStyle = new Style({ font: "30px Brandon Grotesque", color: "white" });
-let headerTextStyle = new Style({ font: "bold 50px Brandon Grotesque", color: "blue"});
-let headerSymbolStyle = new Style({ font: "bold italic 50px Brandon Grotesque", color: "blue"});
+let headerTextStyle = new Style({ font: "bold 50px Brandon Grotesque", color: "white"});
+let headerSymbolStyle = new Style({ font: "bold italic 50px Brandon Grotesque", color: "white"});
 let elemTextStyle = new Style({ font: "14px Brandon Grotesque", color: "#3c4241"});
 let elemLinkStyle = new Style({ font: "italic 14px Brandon Grotesque", color: "#007aff"}); //this is the apple Link color
 let mainTextStyle = new Style({ font: "bold italic 80px Brandon Grotesque", color: "white"});
@@ -77,7 +77,7 @@ let HomeScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left: "", right:"", title:"Aromafy", touchRightFxn: nullFxn}),
+        new header({left: " ", right:"", title:"Aromafy", touchRightFxn: nullFxn}),
         new Label({
             string: "Welcome Home",
             top:40, left: 0, right: 0,
@@ -125,19 +125,7 @@ let HomeScreen = Column.template( $ => ({
                 }
             })
         }),
-        new Label({
-            string: "suggest scent screen",
-            active:true,
-            top:15, width: 260, height: 40,
-            horizontal: "center",
-            skin: lgreen,
-            style: largerTextStyle,
-            behavior: Behavior({
-                onTouchEnded(content, id,x,y,ticks) {
-                    transition(suggestYouScreen);
-                }
-            })
-        }),/*,
+        new Label({            string: "suggest scent screen",            active:true,            top:15, width: 260, height: 40,            horizontal: "center",            skin: lgreen,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content, id,x,y,ticks) {                    transition(suggestYouScreen);                }            })        }),/*,
         new Label({
             string: "Create a Scent",
             active:true,
@@ -190,7 +178,7 @@ let getStartedButton = new Container({
  
 let header = Line.template($ => ({
     top:0, left:0, right:0, height:50,
-    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "blue"}), //Apple safari skin, videos use #5ac8fa
+    skin: dblue, //Apple safari skin, videos use #5ac8fa
     contents: [
         new Container({
             top:0,left:0,right:0,bottom:0,
@@ -324,7 +312,7 @@ let ConnectScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"<", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
+        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
         new Label({
             string: "Device link",
             top:20,
@@ -466,7 +454,7 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             if (has_scent[selected_j][selected_i]){
                             	transition(modifyStateScreen);
                             } else {
-                            	transition(currentStateScreen);// suggestYouScreen);
+                            	transition(suggestYouScreen);
                             }
                         }
                     })
@@ -481,9 +469,9 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
 //                 })
 
 export function returnToCal(duration=1) {
-    // if (has_scent[selected_j][selected_i]) {
-    //     remove_scent(selected_i, selected_j);
-    // }
+    if (has_scent[selected_j][selected_i]) {
+        remove_scent(selected_i, selected_j);
+    }
     starts_scent[selected_j][selected_i] = true;
     has_scent[selected_j][selected_i] = true;
     write_color(selected_i,selected_j,currentColor,duration);
@@ -571,7 +559,6 @@ function remove_scent(i,j) {
             borders: {left: 2, right: 2, top: 1, bottom: 1},
             stroke: "black"
         })
-        // calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
         has_scent[j][i] = false;
         i--;
         if (i < 0) {
@@ -796,11 +783,7 @@ let plusButton = new Picture({
 
 let timeStatus = new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
 
-let deleteLabel = new Label({
-    string: "Delete a Schedule",
-    bottom: 5, left: 10,
-    style: new Style
-})
+
 //application.add(group4);\
 
 currentStateScreen = new Container({
@@ -830,50 +813,10 @@ calendarScreen = new Container({
         new header({left:"<", right:"", title:"Schedules", touchRightFxn: nullFxn}),
         scheduleColumn,
         timeColumn,
-        deleteLabel
         //plusButton
     ]
 });
-suggestYouScreen = new Container({
-    top:0,bottom:0,left:0,right:0,
-    skin: backgroundGray,
-    contents: [
-        new header({left:"<", right:"", title:"Suggest Scent", touchRightFxn: nullFxn}),
-        new Label({
-            string: "Do you want a suggestion?",
-            active:true,
-            top:200,
-            horizontal: "center",
-            style: suggestTextStyle,
-        }),
-        new Label({
-            string: "yes ✓",
-            active:true,
-            top:250, width: 150, height: 40,
-            horizontal: "center",
-            skin: lblue,
-            style: largerTextStyle,
-            behavior: Behavior({
-                onTouchEnded() {
-                    transition(currentStateScreen);
-                }
-            })
-        }),  
-      new Label({
-            string: "no ✖",
-            active:true,
-            top:330, width: 150, height: 40,
-            horizontal: "center",
-            skin: lblue,
-            style: largerTextStyle,
-            behavior: Behavior({
-                onTouchEnded(content,id,x,y,ticks) {
-                    transition(hs);
-                }
-            })
-        }),
-    ]
-}); 
+suggestYouScreen = new Container({    top:0,bottom:0,left:0,right:0,    skin: backgroundGray,    contents: [        new header({left:"<", right:"", title:"Suggest Scent", touchRightFxn: nullFxn}),        new Label({            string: "Do you want a suggestion?",            active:true,            top:200,            horizontal: "center",            style: suggestTextStyle,        }),        new Label({            string: "yes ✓",            active:true,            top:250, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded() {                    transition(currentStateScreen);                }            })        }),        new Label({            string: "no ✖",            active:true,            top:330, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content,id,x,y,ticks) {                    transition(hs);                }            })        }),    ]}); 
 newScentScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
@@ -882,52 +825,12 @@ newScentScreen = new Container({
     ]
 });
 
-Handler.bind("/discover", Behavior({
-    onInvoke: function(handler, message){
-        trace("Found the device.\n");
-        deviceURL = JSON.parse(message.requestText).url; 
-    }
-}));
+Handler.bind("/discover", Behavior({    onInvoke: function(handler, message){        trace("Found the device.\n");
+        deviceURL = JSON.parse(message.requestText).url;     }}));
 
-Handler.bind("/forget", Behavior({
-    onInvoke: function(handler, message){
-        deviceURL = "";
-    }
-}));
+Handler.bind("/forget", Behavior({    onInvoke: function(handler, message){        deviceURL = "";    }}));
 
-Handler.bind("/getScent", Behavior({
-    onInvoke: function(handler, message, text){
-    	trace("invoked\n");
-        message.responseText = "test";
-    }
-}));
-
-class ApplicationBehavior extends Behavior {
-    onDisplayed(application) {
-    	application.shared = true;
-        application.discover("aromaDevice.project.kinoma.marvell.com");
-        let discoveryInstance = Pins.discover(
-            connectionDesc => {
-                if (connectionDesc.name == "pins-share-led") {
-                    trace("Connecting to remote pins\n");
-                    remotePins = Pins.connect(connectionDesc);
-                }
-            }, 
-            connectionDesc => {
-                if (connectionDesc.name == "pins-share-led") {
-                    trace("Disconnected from remote pins\n");
-                    remotePins = undefined;
-                }
-            }
-        );
-    }
-    onToggleLight(application, value) {
-        if (remotePins) remotePins.invoke("/led/write", value);
-    }
-    onQuit(application) {
-        application.shared = false;
-        application.forget("aromaDevice.project.kinoma.marvell.com");
-    }
-}
-
-application.behavior = new ApplicationBehavior();
+Handler.bind("/getScent", Behavior({    onInvoke: function(handler, message, text){
+    	trace("invoked\n");        message.responseText = "test";    }}));class ApplicationBehavior extends Behavior {    onDisplayed(application) {
+    	application.shared = true;        application.discover("aromaDevice.project.kinoma.marvell.com");        let discoveryInstance = Pins.discover(            connectionDesc => {                if (connectionDesc.name == "pins-share-led") {                    trace("Connecting to remote pins\n");                    remotePins = Pins.connect(connectionDesc);                }            },             connectionDesc => {                if (connectionDesc.name == "pins-share-led") {                    trace("Disconnected from remote pins\n");                    remotePins = undefined;                }            }        );    }    onToggleLight(application, value) {        if (remotePins) remotePins.invoke("/led/write", value);    }    onQuit(application) {
+        application.shared = false;        application.forget("aromaDevice.project.kinoma.marvell.com");    }}application.behavior = new ApplicationBehavior();

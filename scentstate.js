@@ -40,11 +40,11 @@ export var isCurrentScent = 0;
 export var currentColor = whiteBorderSkin;
 export var saveSkin = orange;
 
-let intensity = 5;
-export var timeHour = 1;
+let intensity = 50;
+export var timeHour = 4;
 let timeMinute = 30;
 let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 425, string: timeHour + " hrs" }));//":" + timeMinute}));
-let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 425, string: intensity}));
+let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity + "%"}));
 export var tempIntensityLabel = new intensityLabel();
 export var tempTimeLabel = new timeLabel();
 export var group4 = new Container({
@@ -111,14 +111,14 @@ export var group4 = new Container({
             new Picture({top: 100, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
-                    if (intensity < 10) {
-                        intensity += 1;
+                    if (intensity < 100) {
+                        intensity += 10;
                     }
                     application.remove(tempIntensityLabel);
-                    if (intensity == 10) {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity});
+                    if (intensity == 100) {
+                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 240, top: 425, string: intensity+"%"});
                     } else {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 425, string: intensity});
+                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity+"%"});
                     }
                     application.add(tempIntensityLabel);                                                            
                 }})
@@ -127,10 +127,15 @@ export var group4 = new Container({
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity > 0) {
-                        intensity -= 1;
+                        intensity -= 10;
                     }
                     application.remove(tempIntensityLabel);
-                    tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 425, string: intensity});
+                    if (intensity == 0){
+                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 425, string: intensity+"%"});
+                    } else {
+                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 425, string: intensity+"%"});
+                    }
+                   
                     application.add(tempIntensityLabel);                                                            
                 }})
             })

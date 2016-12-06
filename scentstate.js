@@ -43,17 +43,20 @@ export var saveSkin = orange;
 let intensity = 5;
 export var timeHour = 1;
 let timeMinute = 30;
-let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs" }));//":" + timeMinute}));
-let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity}));
+let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 425, string: timeHour + " hrs" }));//":" + timeMinute}));
+let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 425, string: intensity}));
 export var tempIntensityLabel = new intensityLabel();
 export var tempTimeLabel = new timeLabel();
 export var group4 = new Container({
-  left: 0, right: 0, top: 400, bottom: 0,
+  left: 0, right: 0, top: 380, bottom: 0,
   active: true,
   skin: backgroundGray,
   contents: [
+  			new Container({left: 105, top: 230, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
+                onTouchEnded: function(content) {returnToCal(timeHour) }})}),
+  			new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 145, top: 235, string: "Add Scent"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 0, string: "Duration"}),
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 68, top: 0, string: "Intensity"}),
+            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 75, top: 0, string: "Intensity"}),
             new Container({left: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             new Container({right: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),

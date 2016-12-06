@@ -16,7 +16,8 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate";
+import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate"
+import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
 // Scroller is only necessary for the calendar I believe
@@ -31,7 +32,8 @@ let mainTextStyle = new Style({ font: "bold italic 80px Brandon Grotesque", colo
 let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background color #efeff4
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
- 
+let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AEF2" });
+
 var currentScent = "";
 var currentScentString = "";
 var deviceURL = "";
@@ -122,7 +124,8 @@ let HomeScreen = Column.template( $ => ({
                     transition(currentStateScreen);
                 }
             })
-        })/*,
+        }),
+        new Label({            string: "suggest scent screen",            active:true,            top:15, width: 260, height: 40,            horizontal: "center",            skin: lgreen,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content, id,x,y,ticks) {                    transition(suggestYouScreen);                }            })        }),/*,
         new Label({
             string: "Create a Scent",
             active:true,
@@ -136,6 +139,7 @@ let HomeScreen = Column.template( $ => ({
                 }
             })
         })*/
+        
     ]
 }))
  
@@ -396,6 +400,10 @@ export function goBack() {
         application.remove(tempTimeLabel);
         application.remove(tempIntensityLabel);
     }
+    if (currentScreen == modifyStateScreen){
+        application.remove(tempTimeLabelM);
+        application.remove(tempIntensityLabelM);
+    }
     mmc.remove(currentScreen);
     currentScreen = screenStack.pop();
     if (!currentScreen) {
@@ -411,8 +419,10 @@ let is = new IntroScreen({});
 let hs = new HomeScreen({});
 let connectScreen = new ConnectScreen({});
 let currentStateScreen = new MainContainer({});
+let modifyStateScreen = new MainContainer({});
 let calendarScreen = new MainContainer({});
 let newScentScreen = new MainContainer({});
+let suggestYouScreen = new MainContainer({});
  
 application.add(mmc);
 mmc.add(is)
@@ -433,9 +443,7 @@ var whiteBorderSkin = new Skin({
     borders: {left: 2, right: 2, top: 1, bottom: 1}, 
     stroke: "black"
 });
- 
- 
- 
+  
 var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin, 
                     behavior: Behavior({
                         onTouchEnded(content, id,x,y,ticks) {
@@ -443,7 +451,11 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             selected_j = $.j;
                             selected_i = $.i;
                             timeStatus.string = calendarTime(selected_j, selected_i);
-                            transition(currentStateScreen);
+                            if (has_scent[selected_j][selected_i]){
+                            	transition(modifyStateScreen);
+                            } else {
+                            	transition(suggestYouScreen);
+                            }
                         }
                     })
                 }))
@@ -760,9 +772,10 @@ let plusButton = new Picture({
         onTouchBegan: function(container) {
             application.distribute("onToggleLight", 1);
         },
-        onTouchEnded: function(container) {
-           application.distribute("onToggleLight", 0);
-           returnToCal(timeHour);
+        onTouchEnded(content, id,x,y,ticks) {
+            application.distribute("onToggleLight", 0);
+            returnToCal(timeHour);  
+            transition(calendarScreen);
         }
     })
 })
@@ -771,7 +784,8 @@ let plusButton = new Picture({
 let timeStatus = new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
 
 
-//application.add(group4);
+//application.add(group4);\
+
 currentStateScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
@@ -783,7 +797,15 @@ currentStateScreen = new Container({
         plusButton
     ]
 });
- 
+modifyStateScreen = new Container({
+    top:0,bottom:0,left:0,right:0,
+    skin: backgroundGray,
+    contents: [
+        new header({left:"<", right:"", title:"Modify a Scent!", touchRightFxn: returnToCal}),
+        group4M,
+        scentsM
+    ]
+});
 calendarScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
@@ -794,7 +816,7 @@ calendarScreen = new Container({
         //plusButton
     ]
 });
- 
+suggestYouScreen = new Container({    top:0,bottom:0,left:0,right:0,    skin: backgroundGray,    contents: [        new header({left:"<", right:"", title:"Suggest Scent", touchRightFxn: nullFxn}),        new Label({            string: "Do you want a suggestion?",            active:true,            top:200,            horizontal: "center",            style: suggestTextStyle,        }),        new Label({            string: "yes ✓",            active:true,            top:250, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded() {                    transition(currentStateScreen);                }            })        }),        new Label({            string: "no ✖",            active:true,            top:330, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content,id,x,y,ticks) {                    transition(hs);                }            })        }),    ]}); 
 newScentScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,

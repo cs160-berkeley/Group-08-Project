@@ -1,4 +1,5 @@
 import {returnToCal} from "main";
+import {isCurrentScent, currentColor, saveSkin} from "scentstate";
 var currentScent = "";
 var currentScentString = "";
 
@@ -36,24 +37,25 @@ var whiteBorderSkin = new Skin({
     stroke: "black"
 });
 
-export var isCurrentScent = 0;
-export var currentColor = whiteBorderSkin;
-export var saveSkin = orange;
+//export var isCurrentScent = 0;
+//export var currentColor = whiteBorderSkin;
+//export var saveSkin = orange;
 
 let intensity = 80;
 export var timeHour = 5;
 let timeMinute = 30;
 let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 395, string: timeHour + " hrs" }));//":" + timeMinute}));
 let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"}));
-export var tempIntensityLabel = new intensityLabel();
-export var tempTimeLabel = new timeLabel();
-export var group4 = new Container({
+export var tempIntensityLabelM = new intensityLabel();
+export var tempTimeLabelM = new timeLabel();
+export var group4M = new Container({
   left: 0, right: 0, top: 300, bottom: 0,
   active: true,
   skin: backgroundGray,
   contents: [
+  			//new Container({left: 290, top: 290, height: 90, width: 100, skin: new Skin({fill: "white"}), active: true}),
   			new Container({left: 105, top: 290, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
-                onTouchEnded: function(content) {returnToCal() }})}),
+                onTouchEnded: function(content) {returnToCal(timeHour) }})}),
   			new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 135, top: 295, string: "Save Changes"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 52, top: 50, string: "Time Remaining"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 78, top: 50, string: "Intensity"}),
@@ -73,17 +75,17 @@ export var group4 = new Container({
                     if (timeHour > 7*24) {
                         timeHour = 7*24;
                     }
-                    application.remove(tempTimeLabel);
-                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs"});
+                    application.remove(tempTimeLabelM);
+                    tempTimeLabelM = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 395, string: timeHour + " hrs"});
                     // if (timeMinute == 0){
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
                     // } else {
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":" + timeMinute});
                     // }
-                    application.add(tempTimeLabel);                                                             
+                    application.add(tempTimeLabelM);                                                             
                 }, onDisplayed: function(content) {
-                    application.add(tempTimeLabel);
-                    application.add(tempIntensityLabel);
+                    application.add(tempTimeLabelM);
+                    application.add(tempIntensityLabelM);
                 }})
             }),
             new Picture({top: 215, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
@@ -98,14 +100,14 @@ export var group4 = new Container({
                     if (timeHour < 1) {
                         timeHour = 1;
                     }
-                    application.remove(tempTimeLabel);
-                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 395, string: timeHour + " hrs"});
+                    application.remove(tempTimeLabelM);
+                    tempTimeLabelM = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 395, string: timeHour + " hrs"});
                     // if (timeMinute == 0){
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
                     // } else {
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":" + timeMinute});
                     // }
-                    application.add(tempTimeLabel);                                                             
+                    application.add(tempTimeLabelM);                                                             
                 }})
             }),
             new Picture({top: 150, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
@@ -114,13 +116,13 @@ export var group4 = new Container({
                     if (intensity < 100) {
                         intensity += 10;
                     }
-                    application.remove(tempIntensityLabel);
+                    application.remove(tempIntensityLabelM);
                     if (intensity == 100) {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 240, top: 395, string: intensity + "%"});
+                        tempIntensityLabelM = new Label({style: new Style({color: "black", font: "28px"}), left: 240, top: 395, string: intensity + "%"});
                     } else {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"});
+                        tempIntensityLabelM = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"});
                     }
-                    application.add(tempIntensityLabel);                                                            
+                    application.add(tempIntensityLabelM);                                                            
                 }})
             }),
             new Picture({top: 215, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
@@ -129,13 +131,13 @@ export var group4 = new Container({
                     if (intensity > 0) {
                         intensity -= 10;
                     }
-                    application.remove(tempIntensityLabel);
+                    application.remove(tempIntensityLabelM);
                     if (intensity == 0) {
-                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 395, string: intensity + "%"});
+                    	tempIntensityLabelM = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 395, string: intensity + "%"});
                     } else {
-                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"});
+                    	tempIntensityLabelM = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"});
                     }
-                    application.add(tempIntensityLabel);                                                            
+                    application.add(tempIntensityLabelM);                                                            
                 }})
             })
             ]
@@ -173,9 +175,9 @@ var flowers = new Container ({
 	active: true, left: 0, width: 100, height: 70, top: 0, skin: lblue,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
-			scents.remove(currentOptions);
+			scentsM.remove(currentOptions);
 			currentOptions = flowerOptions;
-			scents.add(currentOptions);
+			scentsM.add(currentOptions);
 		}
 	}), contents: [
 		new Label({ string: "Flowers", style: scentTextStyle, bottom: 0}),
@@ -186,9 +188,9 @@ var outdoors = new Column ({
 	active: true, left: 0, width: 100, height: 70,top: 70, skin: lgreen,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
-			scents.remove(currentOptions);
+			scentsM.remove(currentOptions);
 			currentOptions = outdoorOptions;
-			scents.add(currentOptions);
+			scentsM.add(currentOptions);
 		}
 	}), contents: [
 		new Picture({ url: "http://www.clker.com/cliparts/V/q/Y/F/8/B/tree-outline-md.png", top: 5, height: 45}),
@@ -199,9 +201,9 @@ var foods = new Container ({
 	active: true, left: 0, width: 100, height: 70,top: 140, skin: yellow,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
-			scents.remove(currentOptions);
+			scentsM.remove(currentOptions);
 			currentOptions = foodOptions;
-			scents.add(currentOptions);
+			scentsM.add(currentOptions);
 		}
 	}), contents: [
 		new Label({ string: "Foods", style: scentTextStyle, bottom: 0}),
@@ -213,9 +215,9 @@ var misc = new Container ({
 	active: true, left: 0, width: 100, height: 70, top: 210, skin: dblue,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
-			scents.remove(currentOptions);
+			scentsM.remove(currentOptions);
 			currentOptions = miscOptions;
-			scents.add(currentOptions);
+			scentsM.add(currentOptions);
 		}
 	}), contents: [
 		new Picture({ url: "http://www.freeiconspng.com/uploads/windy-png-6.png", width: 65}),
@@ -261,7 +263,7 @@ var miscOptions = new Container({
 	
 var currentOptions = flowerOptions;
 
-export var scents = new Container ({
+export var scentsM = new Container ({
 	left: 0, top: 50, width: 750, height: 280, active: true, skin: new Skin({fill: "#FFFFFF"}),
 	behavior: Behavior({
 		onCreate: function(content) {

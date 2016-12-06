@@ -768,7 +768,8 @@ let plusButton = new Picture({
     active: true,
     behavior: Behavior({
         onTouchEnded(content, id,x,y,ticks) {
-            returnToCal(timeHour);
+            returnToCal(timeHour);  
+            //transition(calendarScreen);
         }
     })
 })
@@ -799,7 +800,6 @@ modifyStateScreen = new Container({
         scentsM
     ]
 });
- 
 calendarScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
@@ -810,9 +810,7 @@ calendarScreen = new Container({
         //plusButton
     ]
 });
- 
-suggestYouScreen = new Container({    top:0,bottom:0,left:0,right:0,    skin: backgroundGray,    contents: [        new header({left:"<", right:"", title:"Suggest Scent", touchRightFxn: nullFxn}),        new Label({            string: "Do you want a suggestion?",            active:true,            top:200,            horizontal: "center",            style: suggestTextStyle,        }),        new Label({            string: "yes ✓",            active:true,            top:250, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded() {                    transition(currentStateScreen);                }            })        }),        new Label({            string: "no ✖",            active:true,            top:330, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded() {                    returnToCal();                }            })        }),    ]}); 
-
+suggestYouScreen = new Container({    top:0,bottom:0,left:0,right:0,    skin: backgroundGray,    contents: [        new header({left:"<", right:"", title:"Suggest Scent", touchRightFxn: nullFxn}),        new Label({            string: "Do you want a suggestion?",            active:true,            top:200,            horizontal: "center",            style: suggestTextStyle,        }),        new Label({            string: "yes ✓",            active:true,            top:250, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content, id,x,y,ticks) {                    transition(currentStateScreen);                }            })        }),        new Label({            string: "no ✖",            active:true,            top:330, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content,id,x,y,ticks) {                    goBack();                }            })        }),    ]}); 
 newScentScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,

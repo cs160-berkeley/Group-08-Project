@@ -769,7 +769,7 @@ let plusButton = new Picture({
     behavior: Behavior({
         onTouchEnded(content, id,x,y,ticks) {
             returnToCal(timeHour);  
-            //transition(calendarScreen);
+            transition(calendarScreen);
         }
     })
 })

@@ -32,7 +32,8 @@ let mainTextStyle = new Style({ font: "bold italic 80px Brandon Grotesque", colo
 let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background color #efeff4
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
- 
+let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AEF2" });
+
 var currentScent = "";
 var currentScentString = "";
 export var selectedCalendarCell;
@@ -121,7 +122,8 @@ let HomeScreen = Column.template( $ => ({
                     transition(currentStateScreen);
                 }
             })
-        })/*,
+        }),
+        new Label({            string: "suggest scent screen",            active:true,            top:15, width: 260, height: 40,            horizontal: "center",            skin: lgreen,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded(content, id,x,y,ticks) {                    transition(suggestYouScreen);                }            })        }),/*,
         new Label({
             string: "Create a Scent",
             active:true,
@@ -135,6 +137,7 @@ let HomeScreen = Column.template( $ => ({
                 }
             })
         })*/
+        
     ]
 }))
  
@@ -417,6 +420,7 @@ let currentStateScreen = new MainContainer({});
 let modifyStateScreen = new MainContainer({});
 let calendarScreen = new MainContainer({});
 let newScentScreen = new MainContainer({});
+let suggestYouScreen = new MainContainer({});
  
 application.add(mmc);
 mmc.add(is)
@@ -437,9 +441,7 @@ var whiteBorderSkin = new Skin({
     borders: {left: 2, right: 2, top: 1, bottom: 1}, 
     stroke: "black"
 });
- 
- 
- 
+  
 var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin, 
                     behavior: Behavior({
                         onTouchEnded(content, id,x,y,ticks) {
@@ -450,7 +452,7 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             if (has_scent[selected_j][selected_i]){
                             	transition(modifyStateScreen);
                             } else {
-                            	transition(currentStateScreen);
+                            	transition(suggestYouScreen);
                             }
                         }
                     })
@@ -809,6 +811,8 @@ calendarScreen = new Container({
     ]
 });
  
+suggestYouScreen = new Container({    top:0,bottom:0,left:0,right:0,    skin: backgroundGray,    contents: [        new header({left:"<", right:"", title:"Suggest Scent", touchRightFxn: nullFxn}),        new Label({            string: "Do you want a suggestion?",            active:true,            top:200,            horizontal: "center",            style: suggestTextStyle,        }),        new Label({            string: "yes ✓",            active:true,            top:250, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded() {                    transition(currentStateScreen);                }            })        }),        new Label({            string: "no ✖",            active:true,            top:330, width: 150, height: 40,            horizontal: "center",            skin: lblue,            style: largerTextStyle,            behavior: Behavior({                onTouchEnded() {                    returnToCal();                }            })        }),    ]}); 
+
 newScentScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,

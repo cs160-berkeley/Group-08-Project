@@ -7,7 +7,7 @@ let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"}
 let backgroundGray = new Skin({fill: "#FFFFFF"});
 let rose = new Skin({fill: "#f7b7d2"});
 let lavender = new Skin({fill: "#c282ed"});
-let jasmine = new Skin({fill: "#80ff80"});
+let jasmine = new Skin({fill: "#6edd6e"});
 let vanilla = new Skin({fill: "#66ccff"});
 let grass = new Skin({fill: "#39e600"});
 let ocean = new Skin({fill: "#33adff"});
@@ -15,7 +15,7 @@ let rain = new Skin({fill: "#0066ff"});
 let forest = new Skin({fill: "#009900"});
 let tangerine = new Skin({fill: "#ffa31a"});
 let peaches = new Skin({fill: "#ff9966"});
-let shake = new Skin({fill: "#cc9900"});
+let shake = new Skin({fill: "#efcb02"});
 let cinammon = new Skin({fill: "#cc0000"});
 let lightblue = new Skin({fill: "#8cdcf2"});
 let car = new Skin({fill: "#666699"});
@@ -55,13 +55,13 @@ export var group4 = new Container({
   			new Container({left: 105, top: 230, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
                 onTouchEnded: function(content) {returnToCal(timeHour) }})}),
   			new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 145, top: 235, string: "Add Scent"}),
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 0, string: "Duration"}),
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 75, top: 0, string: "Intensity"}),
+            new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}), left: 72, top: 0, string: "Duration"}),
+            new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}), right: 72, top: 0, string: "Intensity"}),
             new Container({left: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             new Container({right: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
-            new Picture({top: 100, left: 75,url:"http://i.imgur.com/OPaTPDB.png", active: true, 
+            new Picture({top: 100, left: 80,active:true, width: 50, height:50, url:"./plus_big.png",// "http://i.imgur.com/OPaTPDB.png", active: true, 
                 behavior: Behavior({ 
                 onTouchEnded: function(content) {
                     // timeMinute += 10;
@@ -86,7 +86,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);
                 }})
             }),
-            new Picture({top: 165, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 165, left: 80, active:true, width: 50, height:50,url:"./minus_big.png",// "http://i.imgur.com/CfWKqwY.png",
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     // timeMinute -= 10;
@@ -108,7 +108,7 @@ export var group4 = new Container({
                     application.add(tempTimeLabel);                                                             
                 }})
             }),
-            new Picture({top: 100, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
+            new Picture({top: 100, left: 245,active:true, width: 50, height:50,url:"./plus_big.png",//"http://i.imgur.com/OPaTPDB.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity < 100) {
@@ -123,7 +123,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);                                                            
                 }})
             }),
-            new Picture({top: 165, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 165, left: 245, active:true, width: 50, height:50,url:"./minus_big.png",// "http://i.imgur.com/CfWKqwY.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity > 0) {
@@ -233,8 +233,8 @@ var flowerOptions = new Container({
 	contents: [
 	   new scent({ string: "Rose Petal", top: 10, left: 30, fill: "#f075a8", skin: rose}),
 	   new scent({ string: "Lavender", top: 10, left: 142, fill: "#a84de6", skin: lavender}),
-	   new scent({ string: "Jasmine", top: 120, left: 30, fill: "#4dff4d", skin: jasmine}),
-	   new scent({ string: "Vanilla Orchids", top: 120, left: 142, fill: "#1ab2ff", skin: vanilla})
+	   new scent({ string: "Jasmine", top: 120, left: 30, fill: "#38c138", skin: jasmine}),
+	   new scent({ string: "Vanilla\nOrchids", top: 120, left: 142, fill: "#1ab2ff", skin: vanilla})
 	] });
 
 var outdoorOptions = new Container({
@@ -242,7 +242,7 @@ var outdoorOptions = new Container({
 	contents: [
 	   new scent({ string: "Freshly Cut Grass", top: 10, left: 30, fill: "#33cc00", skin: grass }),
 	   new scent({ string: "Ocean Breeze", top: 10, left:142, fill: "#0099ff", skin: ocean }),
-	   new scent({ string: "After the Rain", top: 120, left: 30, fill: "#0052cc", skin: rain}),
+	   new scent({ string: "After the\nRain", top: 120, left: 30, fill: "#0052cc", skin: rain}),
 	   new scent({ string: "The Forest", top: 120, left: 142, fill: "#008000", skin: forest}),
 	] });
 	
@@ -251,7 +251,7 @@ var foodOptions = new Container({
 	contents: [
 	   new scent({ string: "Tangerine", top: 10, left:30, fill: "#ff9900", skin: tangerine }),
 	   new scent({ string: "Peaches and Creme", top: 10, left: 142, fill:"#ff884d", skin: peaches}),
-	   new scent({ string: "Milkshake and Fries", top: 120, left: 30, fill:"#b38600", skin: shake}),
+	   new scent({ string: "Milkshake\nand Fries", top: 120, left: 30, fill:"#cc9900", skin: shake}),
 	   new scent({ string: "Cinnamon", top: 120, left: 142, fill: "#b30000", skin: cinammon})
 	] });
 	

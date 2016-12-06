@@ -91,7 +91,7 @@ let HomeScreen = Column.template( $ => ({
         new Label({
             string: "Connect your device",
             active:true,
-            top:40, width: 260, height: 40,
+            top:50, width: 260, height: 40,
             horizontal: "center",
             skin: lgreen,
             style: largerTextStyle,
@@ -102,9 +102,9 @@ let HomeScreen = Column.template( $ => ({
             })
         }),
         new Label({
-            string: "Create/Manage Schedules",
+            string: "My Calendar",
             active:true,
-            top:15, width: 260, height: 40,
+            top:20, width: 260, height: 40,
             style: largerTextStyle,
             skin: lgreen,
             horizontal: "center",
@@ -118,12 +118,26 @@ let HomeScreen = Column.template( $ => ({
         new Label({
             string: "Current Scent State",
             active:true,
-            top:15, width: 260, height: 40,
+            top:20, width: 260, height: 40,
             horizontal: "center",
             skin: lgreen,
             style: largerTextStyle,
             behavior: Behavior({
                 onTouchEnded(content, id,x,y,ticks) {
+                    var d = new Date();
+                    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    var suffix = "am";
+                    var hour = d.getHours();
+                    selected_i = d.getHours();
+                    selected_j = d.getDay() - 1;
+                    if (selected_j == -1) {
+                        selected_j = 6;
+                    }
+                    if (hour > 12) {
+                        suffix = "pm";
+                        hour -= 12;
+                    }
+                    timeStatus.string = "Currently " + days[selected_j] + " at " + hour + ":" + d.getMinutes() + " " + suffix;
                     transition(currentStateScreen);
                 }
             })
@@ -193,8 +207,8 @@ let getStartedButton = new Container({
  
  
 let header = Line.template($ => ({
-    top:0, left:0, right:0, height:50,
-    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "blue"}), //Apple safari skin, videos use #5ac8fa
+    top:0, left:8, right:8, height:50,
+    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}), //Apple safari skin, videos use #5ac8fa
     contents: [
         new Container({
             top:0,left:0,right:0,bottom:0,
@@ -231,6 +245,7 @@ let header = Line.template($ => ({
                 style: headerSymbolStyle,
                 horizontal: "right",
                 active:true,
+
                 behavior: Behavior({
                     onTouchEnded(content,id,x,y,ticks) {
                         //TODO what to do when right header clicked
@@ -485,13 +500,50 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
 //                 })
 
 export function returnToCal(duration=1, del=false) {
+    if (isCurrentScent == 0) {
+        goBack();
+        transition(calendarScreen)
+        return;
+    }
     if (del == true) {
         remove_scent(selected_i, selected_j);
+        goBack();
+        transition(calendarScreen)
     }
-    starts_scent[selected_j][selected_i] = true;
-    has_scent[selected_j][selected_i] = true;
-    write_color(selected_i,selected_j,currentColor,duration);
-    goBack();
+    else {
+        if (has_scent[selected_j][selected_i] == true) {
+            var prev_i = selected_i - 1;
+            var prev_j = selected_j;
+            if (prev_i == -1) {
+                prev_i = 23;
+                prev_j -= 1;
+                if (prev_j == -1) {
+                    prev_j = 6
+                }
+            }
+            ends_scent[prev_j][prev_i] = true;
+        }
+        starts_scent[selected_j][selected_i] = true;
+        has_scent[selected_j][selected_i] = true;
+        write_color(selected_i,selected_j,currentColor,duration);
+        goBack();
+        transition(calendarScreen)
+    }
+}
+
+function write_1_color(i,j, color) {
+    calendar_blocks[j][i].skin = new Skin({
+            fill: color,
+            borders: {left: 2, right: 2, top: 1, bottom: 1},
+            stroke: "black"
+        })
+}
+function write_1_white(i,j) {
+    calendar_blocks[j][i].skin = new Skin({
+            fill: "white",
+            borders: {left: 2, right: 2, top: 1, bottom: 1},
+            stroke: "black"
+        })
 }
 
 function write_color(i,j,color,duration) {
@@ -503,11 +555,7 @@ function write_color(i,j,color,duration) {
         if (j == 7) {
         	j = 0;
         }
-        calendar_blocks[j][i].skin = new Skin({
-            fill: currentColor,
-            borders: {left: 2, right: 2, top: 1, bottom: 1},
-            stroke: "black"
-        })
+        write_1_color(i,j, color)
         has_scent[j][i] = true;
         duration -= 1;
         if (duration == 0) {
@@ -558,11 +606,6 @@ function calendarTime(j,i) {
 }
 
 function remove_scent(i,j) {
-    whiteBorderSkin = new Skin({
-        fill: "#ffffff", 
-        borders: {left: 2, right: 2, top: 1, bottom: 1}, 
-        stroke: "black"
-    });
     if (has_scent[j][i] == false) {
         return;
     }
@@ -570,11 +613,7 @@ function remove_scent(i,j) {
     let j_copy = j;
 
     while (!starts_scent[j][i]) {
-        calendar_blocks[j][i].skin = new Skin({
-            fill: whiteBorderSkin,
-            borders: {left: 2, right: 2, top: 1, bottom: 1},
-            stroke: "black"
-        })
+        write_1_white(i,j);
         has_scent[j][i] = false;
         i--;
         if (i < 0) {
@@ -585,22 +624,15 @@ function remove_scent(i,j) {
             j = 6;
         }
     }
-    calendar_blocks[j][i].skin = new Skin({
-        fill: whiteBorderSkin,
-        borders: {left: 2, right: 2, top: 1, bottom: 1},
-        stroke: "black"
-    })
+    write_1_white(i,j);
     has_scent[j][i] = false;
     starts_scent[j][i] = false;
+
     i = i_copy;
     j = j_copy;
 
     while (!ends_scent[j][i]) {
-        calendar_blocks[j][i].skin = new Skin({
-            fill: whiteBorderSkin,
-            borders: {left: 2, right: 2, top: 1, bottom: 1},
-            stroke: "black"
-        })
+        write_1_white(i,j);
         has_scent[j][i] = false;
         i++;
         if (i > 23) {
@@ -611,11 +643,7 @@ function remove_scent(i,j) {
             j = 0;
         }
     }
-    calendar_blocks[j][i].skin = new Skin({
-        fill: whiteBorderSkin,
-        borders: {left: 2, right: 2, top: 1, bottom: 1},
-        stroke: "black"
-    })
+    write_1_white(i,j);
     has_scent[j][i] = false;
     ends_scent[j][i] = false;
 
@@ -797,7 +825,7 @@ let plusButton = new Picture({
 })
 
 
-let timeStatus = new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
+let timeStatus = new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
 
 let deleteLabel = new Label({
     string: "Delete a Schedule",

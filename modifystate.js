@@ -40,25 +40,28 @@ export var isCurrentScent = 0;
 export var currentColor = whiteBorderSkin;
 export var saveSkin = orange;
 
-let intensity = 5;
-export var timeHour = 1;
+let intensity = 80;
+export var timeHour = 5;
 let timeMinute = 30;
-let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs" }));//":" + timeMinute}));
-let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity}));
+let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 395, string: timeHour + " hrs" }));//":" + timeMinute}));
+let intensityLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"}));
 export var tempIntensityLabel = new intensityLabel();
 export var tempTimeLabel = new timeLabel();
 export var group4 = new Container({
-  left: 0, right: 0, top: 400, bottom: 0,
+  left: 0, right: 0, top: 300, bottom: 0,
   active: true,
   skin: backgroundGray,
   contents: [
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 0, string: "Duration"}),
-            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 68, top: 0, string: "Intensity"}),
-            new Container({left: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
-            new Container({right: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
+  			new Container({left: 105, top: 290, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
+                onTouchEnded: function(content) {returnToCal() }})}),
+  			new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 135, top: 295, string: "Save Changes"}),
+            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 52, top: 50, string: "Time Remaining"}),
+            new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 78, top: 50, string: "Intensity"}),
+            new Container({left: 55, top: 90, height: 40, width: 100, skin: new Skin({fill: "#CCCCCC"}), active: true}),
+            new Container({right: 55, top: 90, height: 40, width: 100, skin: new Skin({fill: "#CCCCCC"}), active: true}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
-            new Picture({top: 100, left: 75,url:"http://i.imgur.com/OPaTPDB.png", active: true, 
+            new Picture({top: 150, left: 75,url:"http://i.imgur.com/OPaTPDB.png", active: true, 
                 behavior: Behavior({ 
                 onTouchEnded: function(content) {
                     // timeMinute += 10;
@@ -83,7 +86,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);
                 }})
             }),
-            new Picture({top: 165, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 215, left: 75, url:"http://i.imgur.com/CfWKqwY.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     // timeMinute -= 10;
@@ -96,7 +99,7 @@ export var group4 = new Container({
                         timeHour = 1;
                     }
                     application.remove(tempTimeLabel);
-                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + " hrs"});
+                    tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 395, string: timeHour + " hrs"});
                     // if (timeMinute == 0){
                     //     tempTimeLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 445, string: timeHour + ":00"});
                     // } else {
@@ -105,29 +108,33 @@ export var group4 = new Container({
                     application.add(tempTimeLabel);                                                             
                 }})
             }),
-            new Picture({top: 100, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
+            new Picture({top: 150, left: 236,url:"http://i.imgur.com/OPaTPDB.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
-                    if (intensity < 10) {
-                        intensity += 1;
+                    if (intensity < 100) {
+                        intensity += 10;
                     }
                     application.remove(tempIntensityLabel);
-                    if (intensity == 10) {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 445, string: intensity});
+                    if (intensity == 100) {
+                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 240, top: 395, string: intensity + "%"});
                     } else {
-                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity});
+                        tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"});
                     }
                     application.add(tempIntensityLabel);                                                            
                 }})
             }),
-            new Picture({top: 165, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 215, left: 236, url:"http://i.imgur.com/CfWKqwY.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity > 0) {
-                        intensity -= 1;
+                        intensity -= 10;
                     }
                     application.remove(tempIntensityLabel);
-                    tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 445, string: intensity});
+                    if (intensity == 0) {
+                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 395, string: intensity + "%"});
+                    } else {
+                    	tempIntensityLabel = new Label({style: new Style({color: "black", font: "28px"}), left: 250, top: 395, string: intensity + "%"});
+                    }
                     application.add(tempIntensityLabel);                                                            
                 }})
             })
@@ -172,8 +179,7 @@ var flowers = new Container ({
 		}
 	}), contents: [
 		new Label({ string: "Flowers", style: scentTextStyle, bottom: 0}),
-		new Picture({url: "./Flowers.png", top: 0, height: 50})
-		//new Picture({ url: "http://www.clker.com/cliparts/b/d/d/0/1368552262301808347Buttercup%20Flower%20Outline.svg.hi.png", top:5, height: 45})
+		new Picture({ url: "http://www.clker.com/cliparts/b/d/d/0/1368552262301808347Buttercup%20Flower%20Outline.svg.hi.png", top:5, height: 45})
 	]
 });
 var outdoors = new Column ({
@@ -185,8 +191,7 @@ var outdoors = new Column ({
 			scents.add(currentOptions);
 		}
 	}), contents: [
-		new Picture({ url: "./Outdoors.png", top: 0, height: 50}),
-		//new Picture({ url: "http://www.clker.com/cliparts/V/q/Y/F/8/B/tree-outline-md.png", top: 5, height: 45}),
+		new Picture({ url: "http://www.clker.com/cliparts/V/q/Y/F/8/B/tree-outline-md.png", top: 5, height: 45}),
 		new Label({ string: "Outdoors", style: scentTextStyle, bottom: 0})
 	]
 });
@@ -200,8 +205,7 @@ var foods = new Container ({
 		}
 	}), contents: [
 		new Label({ string: "Foods", style: scentTextStyle, bottom: 0}),
-		new Picture({ url: "./Apples.png", top: 0, height: 50})
-		//new Picture({ url: "https://cdn1.iconfinder.com/data/icons/food-drink-6/24/Apple-512.png", top: 5, height: 45 })
+		new Picture({ url: "https://cdn1.iconfinder.com/data/icons/food-drink-6/24/Apple-512.png", top: 5, height: 45 })
 	]
 });
 
@@ -214,8 +218,7 @@ var misc = new Container ({
 			scents.add(currentOptions);
 		}
 	}), contents: [
-		new Picture({ url: "./Swirl.png",left: 20, right:10, width: 60}),
-		//new Picture({ url: "http://www.freeiconspng.com/uploads/windy-png-6.png", width: 65}),
+		new Picture({ url: "http://www.freeiconspng.com/uploads/windy-png-6.png", width: 65}),
 		new Label({ string: "Misc.", style: scentTextStyle, bottom: 0})
 	]
 });

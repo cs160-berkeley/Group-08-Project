@@ -21,12 +21,15 @@ import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
 // Scroller is only necessary for the calendar I believe
- 
+
+let appTextColor = "#66AEF2";
 let basicTextStyle = new Style({ font: "24px Brandon Grotesque", color: "black" });
+let slightlyLargerBasicTextStyle = new Style({ font: "30px Brandon Grotesque", color: "black" });
 let largerTextStyle = new Style({ font: "30px Brandon Grotesque", color: "white" });
-let headerTextStyle = new Style({ font: "bold 50px Brandon Grotesque", color: "blue"});
-let headerSymbolStyle = new Style({ font: "bold italic 50px Brandon Grotesque", color: "blue"});
-let elemTextStyle = new Style({ font: "14px Brandon Grotesque", color: "#3c4241"});
+let bluishLargerTextStyle = new Style({ font: "30px Brandon Grotesque", color: appTextColor });
+let headerTextStyle = new Style({ font: "bold 50px Brandon Grotesque", color: "#66AEF2"});
+let headerSymbolStyle = new Style({ font: "bold italic 50px Brandon Grotesque", color: "#66AEF2"});
+let elemTextStyle = new Style({ font: "20px Brandon Grotesque", color: "#3c4241"});
 let elemLinkStyle = new Style({ font: "italic 14px Brandon Grotesque", color: "#007aff"}); //this is the apple Link color
 let mainTextStyle = new Style({ font: "bold italic 80px Brandon Grotesque", color: "white"});
 let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background color #efeff4
@@ -125,19 +128,20 @@ let HomeScreen = Column.template( $ => ({
                 }
             })
         }),
-        new Label({
-            string: "suggest scent screen",
-            active:true,
-            top:15, width: 260, height: 40,
-            horizontal: "center",
-            skin: lgreen,
-            style: largerTextStyle,
-            behavior: Behavior({
-                onTouchEnded(content, id,x,y,ticks) {
-                    transition(suggestYouScreen);
-                }
-            })
-        }),/*,
+        // new Label({
+        //     string: "suggest scent screen",
+        //     active:true,
+        //     top:15, width: 260, height: 40,
+        //     horizontal: "center",
+        //     skin: lgreen,
+        //     style: largerTextStyle,
+        //     behavior: Behavior({
+        //         onTouchEnded(content, id,x,y,ticks) {
+        //             transition(suggestYouScreen);
+        //         }
+        //     })
+        // }),
+        /*,
         new Label({
             string: "Create a Scent",
             active:true,
@@ -246,7 +250,7 @@ let deviceEntry = Column.template($ => ({
     width:200,
     contents: [
         new Label({string: $.name, style: basicTextStyle, left:0}),
-        new Label({string: $.dist + "ft from you", style: elemTextStyle,left:10}),
+        new Label({string: $.dist + " ft from you", style: elemTextStyle,left:10}),
         new Label({string: $.status, style: elemTextStyle,left:10})
     ]
 }));
@@ -271,10 +275,10 @@ let connectedMenu = new Container({
 })
  
 let yourDevice = new Column({
-    bottom: 300,
+    bottom: 30,
     left:0,
     contents: [
-        new Label({string: "Your Device", style: largerTextStyle}),
+        new Label({string: "Your Device", horizontal: "left", left:10, style: bluishLargerTextStyle}),
         new Line({
             top:0,bottom:0,left:10,right:0,
             contents: [
@@ -305,7 +309,7 @@ let expandedConnectMenu = new Column({
     active:true,
     contents: [
         new deviceEntry({name: "John's Aroma dispenser", dist:60, status: "Remembered"}),
-        new deviceEntry({name: "Neighbor's Aroma dispenser", dist: 200, status: "Password protected"})
+        //new deviceEntry({name: "Neighbor's Aroma dispenser", dist: 200, status: "Password protected"})
     ],
     behavior: Behavior ({
         onTouchEnded(content,id,x,y,ticks) {
@@ -329,7 +333,7 @@ let ConnectScreen = Column.template( $ => ({
             string: "Device link",
             top:20,
             height:40,
-            style: new Style({ font: "34px", color: "black" }),
+            style: new Style({ font: "34px", color: appTextColor}),
             horizontal: "center"
         }),
         new Container({
@@ -339,7 +343,7 @@ let ConnectScreen = Column.template( $ => ({
             skin: lblue,
             active:true,
             contents: [
-                new Label({ style: basicTextStyle, string: "Select Device         v"})
+                new Label({ style: slightlyLargerBasicTextStyle, string: "Select Device         v"})
             ],
             behavior: Behavior ({
                 onTouchEnded(content,id,x,y,ticks) {
@@ -480,10 +484,10 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
 //                     })
 //                 })
 
-export function returnToCal(duration=1) {
-    // if (has_scent[selected_j][selected_i]) {
-    //     remove_scent(selected_i, selected_j);
-    // }
+export function returnToCal(duration=1, del=false) {
+    if (del == true) {
+        remove_scent(selected_i, selected_j);
+    }
     starts_scent[selected_j][selected_i] = true;
     has_scent[selected_j][selected_i] = true;
     write_color(selected_i,selected_j,currentColor,duration);
@@ -566,12 +570,12 @@ function remove_scent(i,j) {
     let j_copy = j;
 
     while (!starts_scent[j][i]) {
-        calendar_blocks[j][i].skin = new Skin({
-            fill: whiteBorderSkin,
-            borders: {left: 2, right: 2, top: 1, bottom: 1},
-            stroke: "black"
-        })
-        // calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
+        // calendar_blocks[j][i].skin = new Skin({
+        //     fill: whiteBorderSkin,
+        //     borders: {left: 2, right: 2, top: 1, bottom: 1},
+        //     stroke: "black"
+        // })
+        calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
         has_scent[j][i] = false;
         i--;
         if (i < 0) {
@@ -582,22 +586,24 @@ function remove_scent(i,j) {
             j = 6;
         }
     }
-    calendar_blocks[j][i].skin = new Skin({
-        fill: whiteBorderSkin,
-        borders: {left: 2, right: 2, top: 1, bottom: 1},
-        stroke: "black"
-    })
+    // calendar_blocks[j][i].skin = new Skin({
+    //     fill: whiteBorderSkin,
+    //     borders: {left: 2, right: 2, top: 1, bottom: 1},
+    //     stroke: "black"
+    // })
+    calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
     has_scent[j][i] = false;
     starts_scent[j][i] = false;
     i = i_copy;
     j = j_copy;
 
     while (!ends_scent[j][i]) {
-        calendar_blocks[j][i].skin = new Skin({
-            fill: whiteBorderSkin,
-            borders: {left: 2, right: 2, top: 1, bottom: 1},
-            stroke: "black"
-        })
+        // calendar_blocks[j][i].skin = new Skin({
+        //     fill: whiteBorderSkin,
+        //     borders: {left: 2, right: 2, top: 1, bottom: 1},
+        //     stroke: "black"
+        // })
+        calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
         has_scent[j][i] = false;
         i++;
         if (i > 23) {
@@ -608,11 +614,12 @@ function remove_scent(i,j) {
             j = 0;
         }
     }
-    calendar_blocks[j][i].skin = new Skin({
-        fill: whiteBorderSkin,
-        borders: {left: 2, right: 2, top: 1, bottom: 1},
-        stroke: "black"
-    })
+    // calendar_blocks[j][i].skin = new Skin({
+    //     fill: whiteBorderSkin,
+    //     borders: {left: 2, right: 2, top: 1, bottom: 1},
+    //     stroke: "black"
+    // })
+    calendar_blocks[j][i] = new scheduleItem({i:i, j:j});
     has_scent[j][i] = false;
     ends_scent[j][i] = false;
 
@@ -620,17 +627,17 @@ function remove_scent(i,j) {
                  
 let scheduleColumn = new Column({
     left: 45, right: 10, top: 50, bottom:10,
-    skin: lblue,
+    skin: new Skin({fill:"white"}),
     contents: [
         new Line({height:30,  
             contents: [
-                new Label({string: " Mon      ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
-                new Label({string: " Tue      ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
-                new Label({string: " Wed      ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
-                new Label({string: " Thu      ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
-                new Label({string: "  Fri     ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
-                new Label({string: "   Sat    ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
-                new Label({string: "    Sun  ", style: new Style({ font: "16.5 Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: " Mon    ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: " Tue    ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: " Wed    ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: " Thu     ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: " Fri    ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: "  Sat   ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
+                new Label({string: "   Sun ", style: new Style({ font: "24px Brandon Grotesque", color: "black" }),horizontal: "center"}),
             ]
         }),
     ]

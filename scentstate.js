@@ -4,7 +4,7 @@ export var currentScentString = "";
 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
-let backgroundGray = new Skin({fill: "#FFFFFF"})
+let backgroundGray = new Skin({fill: "#FFFFFF"});
 let rose = new Skin({fill: "#f7b7d2"});
 let lavender = new Skin({fill: "#c282ed"});
 let jasmine = new Skin({fill: "#80ff80"});

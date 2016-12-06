@@ -1,5 +1,5 @@
 import {returnToCal} from "main";
-var currentScent = "";
+export var currentScent = "";
 var currentScentString = "";
 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });

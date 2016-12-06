@@ -1,6 +1,6 @@
 import {returnToCal} from "main";
-var currentScent = "";
-var currentScentString = "";
+export var currentScent = "";
+export var currentScentString = "";
 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
@@ -52,6 +52,9 @@ export var group4 = new Container({
   active: true,
   skin: backgroundGray,
   contents: [
+            new Container({left: 105, top: 290, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
+                onTouchEnded: function(content) {returnToCal(timeHour) }})}),
+            new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 135, top: 295, string: "Save Changes"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 75, top: 0, string: "Duration"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 68, top: 0, string: "Intensity"}),
             new Container({left: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),

@@ -16,7 +16,7 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate"
+import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate";
 import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)

@@ -1,7 +1,12 @@
 import {returnToCal} from "main";
+<<<<<<< HEAD
 import {isCurrentScent, currentColor, saveSkin} from "scentstate";
 var currentScent = "";
 var currentScentString = "";
+=======
+import {isCurrentScent, currentColor, saveSkin, currentScent, currentScentString} from "scentstate";
+
+>>>>>>> 1f9c9231780c3439d5ca0a97e74ca7489011ec81
 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
@@ -54,9 +59,12 @@ export var group4M = new Container({
   skin: backgroundGray,
   contents: [
   			//new Container({left: 290, top: 290, height: 90, width: 100, skin: new Skin({fill: "white"}), active: true}),
-  			new Container({left: 105, top: 290, height: 40, width: 170, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
+  			new Container({left: 18, top: 290, height: 40, width: 150, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
+                onTouchEnded: function(content) {returnToCal(timeHour, true) }})}),
+  			new Label({style: new Style({color: "red", font: "30px Brandon Grotesque"}), left: 18, width:150, top: 295, string: "Delete"}),
+            new Container({left: 205, top: 290, height: 40, width: 150, skin: new Skin({fill: "#DDDDDD"}), active: true, behavior: Behavior({ 
                 onTouchEnded: function(content) {returnToCal(timeHour) }})}),
-  			new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 135, top: 295, string: "Save Changes"}),
+            new Label({style: new Style({color: "green", font: "30px Brandon Grotesque"}), left: 205, width:150, top: 295, string: "Save Changes"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), left: 52, top: 50, string: "Time Remaining"}),
             new Label({style: new Style({color: "black", font: "24px Brandon Grotesque"}), right: 78, top: 50, string: "Intensity"}),
             new Container({left: 55, top: 90, height: 40, width: 100, skin: new Skin({fill: "#CCCCCC"}), active: true}),

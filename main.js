@@ -130,14 +130,21 @@ let HomeScreen = Column.template( $ => ({
                     var hour = d.getHours();
                     selected_i = d.getHours();
                     selected_j = d.getDay() - 1;
-                    if (selected_j == -1) {
-                        selected_j = 6;
+                    if (selected_j < 0) {
+                        selected_j += 7;
                     }
                     if (hour > 12) {
                         suffix = "pm";
                         hour -= 12;
                     }
-                    timeStatus.string = "Currently " + days[selected_j] + " at " + hour + ":" + d.getMinutes() + " " + suffix;
+                    if (hour == 0) {
+                        hour = 12;
+                    }
+                    var filler = "";
+                    if (d.getMinutes() < 10) {
+                        filler = "0";
+                    }
+                    timeStatus.string = "Currently " + days[selected_j] + " at " + hour + ":" + filler + d.getMinutes() + " " + suffix;
                     transition(currentStateScreen);
                 }
             })
@@ -502,13 +509,13 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
 export function returnToCal(duration=1, del=false) {
     if (isCurrentScent == 0) {
         goBack();
-        transition(calendarScreen)
+        //transition(calendarScreen)
         return;
     }
     if (del == true) {
         remove_scent(selected_i, selected_j);
         goBack();
-        transition(calendarScreen)
+        //transition(calendarScreen)
     }
     else {
         if (has_scent[selected_j][selected_i] == true) {
@@ -523,11 +530,14 @@ export function returnToCal(duration=1, del=false) {
             }
             ends_scent[prev_j][prev_i] = true;
         }
+        write_color(selected_i,selected_j,currentColor,duration);
         starts_scent[selected_j][selected_i] = true;
         has_scent[selected_j][selected_i] = true;
-        write_color(selected_i,selected_j,currentColor,duration);
         goBack();
-        transition(calendarScreen)
+        //transition(calendarScreen)
+    }
+    if (currentScreen != calendarScreen) {
+        transition(calendarScreen);
     }
 }
 
@@ -555,6 +565,22 @@ function write_color(i,j,color,duration) {
         if (j == 7) {
         	j = 0;
         }
+        if (duration == 1) {
+            if (has_scent[j][i] && !ends_scent[j][i]) {
+                var next_i = i + 1;
+                var next_j = j;
+                if (next_i > 23) {
+                    next_j++;
+                    next_i -= 24;
+                }
+                if (next_j == 7) {
+                    next_j = 0;
+                }
+                starts_scent[next_j][next_i] = true;
+            }
+        }
+        ends_scent[j][i] = false;
+        starts_scent[j][i] = false;
         write_1_color(i,j, color)
         has_scent[j][i] = true;
         duration -= 1;
@@ -615,6 +641,7 @@ function remove_scent(i,j) {
     while (!starts_scent[j][i]) {
         write_1_white(i,j);
         has_scent[j][i] = false;
+        ends_scent[j][i] = false;
         i--;
         if (i < 0) {
             j--;
@@ -627,6 +654,7 @@ function remove_scent(i,j) {
     write_1_white(i,j);
     has_scent[j][i] = false;
     starts_scent[j][i] = false;
+    ends_scent[j][i] = false;
 
     i = i_copy;
     j = j_copy;
@@ -634,6 +662,7 @@ function remove_scent(i,j) {
     while (!ends_scent[j][i]) {
         write_1_white(i,j);
         has_scent[j][i] = false;
+        starts_scent[j][i] = false;
         i++;
         if (i > 23) {
             j++;
@@ -646,6 +675,7 @@ function remove_scent(i,j) {
     write_1_white(i,j);
     has_scent[j][i] = false;
     ends_scent[j][i] = false;
+    starts_scent[j][i] = false;
 
 }
                  
@@ -807,22 +837,22 @@ let timeColumn = new Column({
 
 })
 
-let plusButton = new Picture({
-    url: "./plus_blue.png",
-    right: 5,bottom:5,
-    width: 60,height:60,
-    active: true,
-    behavior: Behavior({
-        onTouchBegan: function(container) {
-            application.distribute("onToggleLight", 1);
-        },
-        onTouchEnded(content, id,x,y,ticks) {
-            application.distribute("onToggleLight", 0);
-            returnToCal(timeHour);  
-            transition(calendarScreen);
-        }
-    })
-})
+// let plusButton = new Picture({
+//     url: "./plus_blue.png",
+//     right: 5,bottom:5,
+//     width: 60,height:60,
+//     active: true,
+//     behavior: Behavior({
+//         onTouchBegan: function(container) {
+//             application.distribute("onToggleLight", 1);
+//         },
+//         onTouchEnded(content, id,x,y,ticks) {
+//             application.distribute("onToggleLight", 0);
+//             returnToCal(timeHour);  
+//             transition(calendarScreen);
+//         }
+//     })
+// })
 
 
 let timeStatus = new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 

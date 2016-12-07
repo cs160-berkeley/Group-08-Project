@@ -61,7 +61,7 @@ export var group4 = new Container({
             new Container({right: 55, top: 40, height: 40, width: 100, skin: new Skin({fill: "gray"}), active: true}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 75, top: 145, string: timeHour + ":" + timeMinute}),
             //new Label({style: new Style({color: "black", font: "28px"}), left: 260, top: 145, string: intensity}),
-            new Picture({top: 100, left: 80,active:true, width: 50, height:50, url:"./plus_big.png",// "http://i.imgur.com/OPaTPDB.png", active: true, 
+            new Picture({top: 95, left: 80,active:true, width: 50, height:50, url:"./plus_big.png",// "http://i.imgur.com/OPaTPDB.png", active: true, 
                 behavior: Behavior({ 
                 onTouchEnded: function(content) {
                     // timeMinute += 10;
@@ -86,7 +86,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);
                 }})
             }),
-            new Picture({top: 165, left: 80, active:true, width: 50, height:50,url:"./minus_big.png",// "http://i.imgur.com/CfWKqwY.png",
+            new Picture({top: 160, left: 80, active:true, width: 50, height:50,url:"./minus_big.png",// "http://i.imgur.com/CfWKqwY.png",
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     // timeMinute -= 10;
@@ -108,7 +108,7 @@ export var group4 = new Container({
                     application.add(tempTimeLabel);                                                             
                 }})
             }),
-            new Picture({top: 100, left: 245,active:true, width: 50, height:50,url:"./plus_big.png",//"http://i.imgur.com/OPaTPDB.png", active: true,
+            new Picture({top: 95, left: 245,active:true, width: 50, height:50,url:"./plus_big.png",//"http://i.imgur.com/OPaTPDB.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity < 100) {
@@ -123,7 +123,7 @@ export var group4 = new Container({
                     application.add(tempIntensityLabel);                                                            
                 }})
             }),
-            new Picture({top: 165, left: 245, active:true, width: 50, height:50,url:"./minus_big.png",// "http://i.imgur.com/CfWKqwY.png", active: true,
+            new Picture({top: 160, left: 245, active:true, width: 50, height:50,url:"./minus_big.png",// "http://i.imgur.com/CfWKqwY.png", active: true,
                 behavior: Behavior({ 
                 onTouchEnded: function(content) { 
                     if (intensity > 0) {
@@ -171,7 +171,7 @@ var scent = Container.template($ => ({
 
 
 var flowers = new Container ({
-	active: true, left: 0, width: 100, height: 70, top: 0, skin: lblue,
+	active: true, left: 5, width: 95, height: 70, top: 5, skin: lblue,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
 			scents.remove(currentOptions);
@@ -185,7 +185,7 @@ var flowers = new Container ({
 	]
 });
 var outdoors = new Column ({
-	active: true, left: 0, width: 100, height: 70,top: 70, skin: lgreen,
+	active: true, left: 5, width: 95, height: 70,top: 74, skin: lgreen,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
 			scents.remove(currentOptions);
@@ -199,7 +199,7 @@ var outdoors = new Column ({
 	]
 });
 var foods = new Container ({
-	active: true, left: 0, width: 100, height: 70,top: 140, skin: yellow,
+	active: true, left: 5, width: 95, height: 70,top: 143, skin: yellow,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
 			scents.remove(currentOptions);
@@ -214,7 +214,7 @@ var foods = new Container ({
 });
 
 var misc = new Container ({
-	active: true, left: 0, width: 100, height: 70, top: 210, skin: dblue,
+	active: true, left: 5, width: 95, height: 70, top: 212, skin: dblue,
 	behavior: Behavior({
 		onTouchBegan: function(content) {
 			scents.remove(currentOptions);
@@ -229,39 +229,39 @@ var misc = new Container ({
 });
 		
 var flowerOptions = new Container({
-	active: true, left: 100, height: 280, width: 305, top: 0, skin: lblue, 
+	active: true, left: 100, height: 277, top: 5, width:270, skin: lblue, 
 	contents: [
-	   new scent({ string: "Rose Petal", top: 10, left: 30, fill: "#f075a8", skin: rose}),
-	   new scent({ string: "Lavender", top: 10, left: 142, fill: "#a84de6", skin: lavender}),
-	   new scent({ string: "Jasmine", top: 120, left: 30, fill: "#38c138", skin: jasmine}),
-	   new scent({ string: "Vanilla\nOrchids", top: 120, left: 142, fill: "#1ab2ff", skin: vanilla})
+	   new scent({ string: "Rose Petal", top: 30, left: 30, fill: "#f075a8", skin: rose}),
+	   new scent({ string: "Lavender", top: 30, left: 142, fill: "#a84de6", skin: lavender}),
+	   new scent({ string: "Jasmine", top: 140, left: 30, fill: "#38c138", skin: jasmine}),
+	   new scent({ string: "Vanilla\nOrchids", top: 140, left: 142, fill: "#1ab2ff", skin: vanilla})
 	] });
 
 var outdoorOptions = new Container({
-	active: true, left: 100, height: 280, width: 305, top: 0, skin: lgreen,
+	active: true, left: 100, height: 277, width: 270, top: 5, skin: lgreen,
 	contents: [
-	   new scent({ string: "Freshly Cut Grass", top: 10, left: 30, fill: "#33cc00", skin: grass }),
-	   new scent({ string: "Ocean Breeze", top: 10, left:142, fill: "#0099ff", skin: ocean }),
-	   new scent({ string: "After the\nRain", top: 120, left: 30, fill: "#0052cc", skin: rain}),
-	   new scent({ string: "The Forest", top: 120, left: 142, fill: "#008000", skin: forest}),
+	   new scent({ string: "Freshly Cut Grass", top: 30, left: 30, fill: "#33cc00", skin: grass }),
+	   new scent({ string: "Ocean Breeze", top: 30, left:142, fill: "#0099ff", skin: ocean }),
+	   new scent({ string: "After the\nRain", top: 140, left: 30, fill: "#0052cc", skin: rain}),
+	   new scent({ string: "The Forest", top: 140, left: 142, fill: "#008000", skin: forest}),
 	] });
 	
 var foodOptions = new Container({
-	active: true, left: 100, height: 280, width: 305, top: 0, skin: yellow,
+	active: true, left: 100, height: 277, width: 270, top: 5, skin: yellow,
 	contents: [
-	   new scent({ string: "Tangerine", top: 10, left:30, fill: "#ff9900", skin: tangerine }),
-	   new scent({ string: "Peaches and Creme", top: 10, left: 142, fill:"#ff884d", skin: peaches}),
-	   new scent({ string: "Milkshake\nand Fries", top: 120, left: 30, fill:"#cc9900", skin: shake}),
-	   new scent({ string: "Cinnamon", top: 120, left: 142, fill: "#b30000", skin: cinammon})
+	   new scent({ string: "Tangerine", top: 30, left:30, fill: "#ff9900", skin: tangerine }),
+	   new scent({ string: "Peaches and Creme", top: 30, left: 142, fill:"#ff884d", skin: peaches}),
+	   new scent({ string: "Milkshake\nand Fries", top: 140, left: 30, fill:"#cc9900", skin: shake}),
+	   new scent({ string: "Cinnamon", top: 140, left: 142, fill: "#b30000", skin: cinammon})
 	] });
 	
 var miscOptions = new Container({
-	active: true, left: 100, height: 280, width: 305, top: 0, skin: dblue,
+	active: true, left: 100, height: 277, width: 270, top: 5, skin: dblue,
 	contents: [
-	    new scent({ string: "Mom's Favorite", top: 10, left: 30, fill:"#f075a8",skin: rose }),
-	    new scent({ string: "For Sally", top: 10, left:142, fill: "#a84de6", skin: lavender }),
-	    new scent({ string: "Forget Me Not", top: 120, left:30, fill: "#5eceed", skin: lightblue }),
-	    new scent({ string: "New Car", top: 120, left: 142, fill: "#5c5c8a", skin: car })
+	    new scent({ string: "Mom's Favorite", top: 30, left: 30, fill:"#f075a8",skin: rose }),
+	    new scent({ string: "For Sally", top: 30, left:142, fill: "#a84de6", skin: lavender }),
+	    new scent({ string: "Forget Me Not", top: 140, left:30, fill: "#5eceed", skin: lightblue }),
+	    new scent({ string: "New Car", top: 140, left: 142, fill: "#5c5c8a", skin: car })
 	] });
 	
 var currentOptions = flowerOptions;

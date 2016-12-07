@@ -182,8 +182,9 @@ var flowers = new Container ({
 		}
 	}), contents: [
 		new Label({ string: "Flowers", style: scentTextStyle, bottom: 0}),
-		new Picture({ url: "http://www.clker.com/cliparts/b/d/d/0/1368552262301808347Buttercup%20Flower%20Outline.svg.hi.png", top:5, height: 45})
-	]
+		//new Picture({ url: "http://www.clker.com/cliparts/b/d/d/0/1368552262301808347Buttercup%20Flower%20Outline.svg.hi.png", top:5, height: 45})
+	    new Picture({url: "./Flowers.png", top: 0, height: 50})
+    ]
 });
 var outdoors = new Column ({
 	active: true, left: 5, width: 95, height: 70,top: 74, skin: lgreen,
@@ -194,8 +195,9 @@ var outdoors = new Column ({
 			scentsM.add(currentOptions);
 		}
 	}), contents: [
-		new Picture({ url: "http://www.clker.com/cliparts/V/q/Y/F/8/B/tree-outline-md.png", top: 5, height: 45}),
-		new Label({ string: "Outdoors", style: scentTextStyle, bottom: 0})
+		//new Picture({ url: "http://www.clker.com/cliparts/V/q/Y/F/8/B/tree-outline-md.png", top: 5, height: 45}),
+		new Picture({ url: "./Outdoors.png", top: 0, height: 50}),
+        new Label({ string: "Outdoors", style: scentTextStyle, bottom: 0})
 	]
 });
 var foods = new Container ({
@@ -208,7 +210,8 @@ var foods = new Container ({
 		}
 	}), contents: [
 		new Label({ string: "Foods", style: scentTextStyle, bottom: 0}),
-		new Picture({ url: "https://cdn1.iconfinder.com/data/icons/food-drink-6/24/Apple-512.png", top: 5, height: 45 })
+		//new Picture({ url: "https://cdn1.iconfinder.com/data/icons/food-drink-6/24/Apple-512.png", top: 5, height: 45 })
+        new Picture({ url: "./Apples.png", top: 0, height: 50})
 	]
 });
 
@@ -221,7 +224,8 @@ var misc = new Container ({
 			scentsM.add(currentOptions);
 		}
 	}), contents: [
-		new Picture({ url: "http://www.freeiconspng.com/uploads/windy-png-6.png", width: 65}),
+		//new Picture({ url: "http://www.freeiconspng.com/uploads/windy-png-6.png", width: 65}),
+        new Picture({ url: "./Swirl.png",left: 20, right:10, width: 60}),
 		new Label({ string: "Misc.", style: scentTextStyle, bottom: 0})
 	]
 });

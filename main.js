@@ -129,7 +129,7 @@ let HomeScreen = Column.template( $ => ({
                     var suffix = "am";
                     var hour = d.getHours();
                     selected_i = d.getHours();
-                    selected_j = d.getDay() - 1;
+                    selected_j = d.getDay();
                     if (selected_j < 0) {
                         selected_j += 7;
                     }
@@ -350,7 +350,7 @@ let ConnectScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
+        new header({left:"<", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
         new Label({
             string: "Device link",
             top:20,
@@ -492,7 +492,7 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             if (has_scent[selected_j][selected_i]){
                             	transition(modifyStateScreen);
                             } else {
-                            	transition(suggestYouScreen);
+                            	transition(currentStateScreen);// suggestYouScreen);
                             }
                         }
                     })

@@ -16,7 +16,7 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate";
+import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate"
 import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
@@ -80,7 +80,7 @@ let HomeScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left: "", right:"", title:"Aromafy", touchRightFxn: nullFxn}),
+        new header({left: " ", right:"", title:"Aromafy", touchRightFxn: nullFxn}),
         new Label({
             string: "Welcome Home",
             top:40, left: 0, right: 0,
@@ -350,7 +350,7 @@ let ConnectScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"<", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
+        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
         new Label({
             string: "Device link",
             top:20,
@@ -492,7 +492,7 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             if (has_scent[selected_j][selected_i]){
                             	transition(modifyStateScreen);
                             } else {
-                            	transition(currentStateScreen);// suggestYouScreen);
+                            	transition(suggestYouScreen);
                             }
                         }
                     })
@@ -857,11 +857,7 @@ let timeColumn = new Column({
 
 let timeStatus = new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
 
-let deleteLabel = new Label({
-    string: "Delete a Schedule",
-    bottom: 5, left: 10,
-    style: new Style
-})
+
 //application.add(group4);\
 
 currentStateScreen = new Container({
@@ -891,7 +887,6 @@ calendarScreen = new Container({
         new header({left:"<", right:"", title:"Schedules", touchRightFxn: nullFxn}),
         scheduleColumn,
         timeColumn,
-        deleteLabel
         //plusButton
     ]
 });

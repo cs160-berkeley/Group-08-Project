@@ -1,10 +1,16 @@
 import {returnToCal} from "main";
+<<<<<<< HEAD
+import {isCurrentScent, currentColor, saveSkin} from "scentstate";
+var currentScent = "";
+var currentScentString = "";
+=======
 import {isCurrentScent, currentColor, saveSkin, currentScent, currentScentString} from "scentstate";
 
+>>>>>>> 1f9c9231780c3439d5ca0a97e74ca7489011ec81
 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
-let backgroundGray = new Skin({fill: "#FFFFFF"})
+let backgroundGray = new Skin({fill: "#FFFFFF"});
 let rose = new Skin({fill: "#f7b7d2"});
 let lavender = new Skin({fill: "#c282ed"});
 let jasmine = new Skin({fill: "#80ff80"});

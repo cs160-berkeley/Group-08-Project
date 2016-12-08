@@ -30,6 +30,8 @@ let bluishLargerTextStyle = new Style({ font: "30px Brandon Grotesque", color: a
 let headerTextStyle = new Style({ font: "bold 50px Brandon Grotesque", color: "#66AEF2"});
 let headerSymbolStyle = new Style({ font: "bold italic 50px Brandon Grotesque", color: "#66AEF2"});
 let elemTextStyle = new Style({ font: "20px Brandon Grotesque", color: "#3c4241"});
+let elem1TextStyle = new Style({ font: "25px Brandon Grotesque", color: "#3c4241"});
+let elem2TextStyle = new Style({ font: "25px Brandon Grotesque", color: "#86BD3E"});
 let elemLinkStyle = new Style({ font: "italic 14px Brandon Grotesque", color: "#007aff"}); //this is the apple Link color
 let mainTextStyle = new Style({ font: "bold italic 80px Brandon Grotesque", color: "white"});
 let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background color #efeff4
@@ -284,13 +286,13 @@ let deviceEntry = Column.template($ => ({
  
 let connectedMenu = new Container({
     name: "connectedMenu",
-    top: 40,
+    top: 70,
     height: 30, width: 200,
     skin: lgreen,
     active:true,
     contents: [
         new Label({ style: basicTextStyle, string: "John's Aroma Dispenser"})
-    ],
+    ]/*,
     behavior: Behavior ({
         onTouchEnded(content,id,x,y,ticks) {
             content.container.container.remove(yourDevice);
@@ -298,29 +300,27 @@ let connectedMenu = new Container({
             content.container.container.add(yourDevice);
             content.container.remove(content);
         }
-    })
+    })*/
 })
  
 let yourDevice = new Column({
-    bottom: 230,
-    left:0,
+    top: 60,
+    left:0, right:0,
     contents: [
-        new Label({string: "Your Device", horizontal: "left", left:10, style: bluishLargerTextStyle}),
-        new Line({
-            top:0,bottom:0,left:10,right:0,
+        //new Label({string: "Your Device", left: 125, style: bluishLargerTextStyle}),
+        new Container({
+            top:0,bottom:0,left:0,right:0,
             contents: [
-                new Picture({
- 
-                    height:120,width:120,
+                new Picture({left: 0, right: 0, height:150,width:150, top: 0,
                     url: 'http://cdn.pocket-lint.com/r/c/742x526/assets/images/phpadneab.jpg'
-                }),
-                new Column({
-                    top:10,left:0,right:0,bottom:0,
+                }),                        
+                new Label({string: "Aromafier 2.0", style: elem1TextStyle, top:150}),
+                new Line({
+                    top:170,left:120,bottom:0, horizontal: "center",
                     contents: [
-                        new Label({string: "John's Aroma Dispenser", style: elemTextStyle,left:10}),
-                        new Label({string: "Currently connected", style: elemTextStyle,left:10}),
-                        new Label({string: "Currently relseasing scent:", left:10, style: elemTextStyle}),
-                        new Label({string: "After the rain, until 5:30pm", left:20, style: elemTextStyle}),
+                        new Label({string: "Status:", style: elem1TextStyle}),
+                        new Label({string: " Connected", style: elem2TextStyle}),
+                        //new Label({string: "After the rain, until 5:30pm", left:20, style: elemTextStyle}),
                     ]
                 })
             ]
@@ -328,9 +328,9 @@ let yourDevice = new Column({
     ]
 })
 let goToCalendar = new Label({
-            		string: "Continue >",
+            		string: "Go to My Calendar >",
             		active:true,
-            		top:350, skin: new Skin({borders: {bottom: 2}, 
+            		top:150, skin: new Skin({borders: {bottom: 2}, 
     				stroke: "#66AEF2"}),
             		horizontal: "center",
             		style: settingTextStyle,
@@ -342,21 +342,21 @@ let goToCalendar = new Label({
             	}) 
 let expandedConnectMenu = new Column({
     name: "expandedConnectMenu",
-    top: 40,
+    top: 70,
     width: 200,
     skin: lblue,
     active:true,
     contents: [
-        new deviceEntry({name: "John's Aroma dispenser", dist:60, status: "Remembered"}),
+        new deviceEntry({name: "John's Aroma Dispenser", dist:5, status: "Remembered"}),
         //new deviceEntry({name: "Neighbor's Aroma dispenser", dist: 200, status: "Password protected"})
     ],
     behavior: Behavior ({
         onTouchEnded(content,id,x,y,ticks) {
             if (hasConnectedDevice) {
-                content.container.container.remove(yourDevice);
+                //content.container.container.remove(yourDevice);
             }
             content.container.add(connectedMenu);
-            content.container.container.add(yourDevice);
+            content.container.add(yourDevice);
             content.container.add(goToCalendar);
             content.container.remove(content);
             hasConnectedDevice = 1;
@@ -368,17 +368,17 @@ let ConnectScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
+        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),/*
         new Label({
-            string: "Device link",
+            string: "Device Link",
             top:20,
             height:40,
             style: new Style({ font: "34px", color: appTextColor}),
             horizontal: "center"
-        }),
+        }),*/
         new Container({
             name: "connectMenu",
-            top: 40,
+            top: 70,
             height: 30, width: 200,
             skin: lblue,
             active:true,
@@ -448,6 +448,9 @@ function transition(destination) {
     screenStack.push(currentScreen);
     mmc.remove(currentScreen);
     mmc.add(destination);
+    if (destination == connectScreen && hasConnectedDevice) {
+    	//destination.add(yourDevice);
+    }
     currentScreen = destination;
 }
  
@@ -912,7 +915,7 @@ let deviceUI  = new Line({
     })})  
     
 let deviceSetting = new Label({
-            string: "Device",
+            string: "View My Device",
             active:true,
             left: 200,
             top:220,

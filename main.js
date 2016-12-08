@@ -39,6 +39,7 @@ let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AE
 let scentNow = "";
 let durationNow = "";
 let intensityNow = "";
+let settingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "#66AEF2" });
 
 var currentScent = "";
 var currentScentString = "";
@@ -209,8 +210,8 @@ let getStartedButton = new Container({
             //TODO transition to home here
             //removeIntroScreen();
             mmc.remove(is);
-            mmc.add(hs);
-            currentScreen = hs;
+            mmc.add(connectScreen);
+            currentScreen = connectScreen;
         }
     })
 })
@@ -300,7 +301,7 @@ let connectedMenu = new Container({
 })
  
 let yourDevice = new Column({
-    bottom: 30,
+    bottom: 230,
     left:0,
     contents: [
         new Label({string: "Your Device", horizontal: "left", left:10, style: bluishLargerTextStyle}),
@@ -325,7 +326,19 @@ let yourDevice = new Column({
         })
     ]
 })
- 
+let goToCalendar = new Label({
+            		string: "Continue >",
+            		active:true,
+            		top:350, skin: new Skin({borders: {bottom: 2}, 
+    				stroke: "#66AEF2"}),
+            		horizontal: "center",
+            		style: settingTextStyle,
+            		behavior: Behavior({
+                		onTouchEnded() {
+                    	transition(calendarScreen);
+                		}
+            		})
+            	}) 
 let expandedConnectMenu = new Column({
     name: "expandedConnectMenu",
     top: 40,
@@ -343,6 +356,7 @@ let expandedConnectMenu = new Column({
             }
             content.container.add(connectedMenu);
             content.container.container.add(yourDevice);
+            content.container.add(goToCalendar);
             content.container.remove(content);
             hasConnectedDevice = 1;
         }
@@ -353,7 +367,7 @@ let ConnectScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"<", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
+        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
         new Label({
             string: "Device link",
             top:20,
@@ -856,7 +870,128 @@ let timeColumn = new Column({
 //         }
 //     })
 // })
+let calendarBlur = new Picture({
+     url: "./calendarblur.png", left:0, width: 178.5,
+     active: true,     behavior: Behavior({
+         onTouchEnded(content, id,x,y,ticks) {
+         	settingScreen.moveBy(375,0);
+         	settingScreenOn = false;
+		 }      
+     })
+})
+let logo = new Picture({
+     url: "http://cdn.pocket-lint.com/r/c/742x526/assets/images/phpadneab.jpg", left: 220, top: 75,
+     height:120, width: 120
+})
+let settingUI  = new Line({
+    top:0, left:175, right:0, height:50, 
+    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"})})
 
+let settingString = new Label({
+			string: "Settings",
+			top: 5,
+			right: 40,
+			style: settingTextStyle,
+			})  
+			
+let deviceUI  = new Line({
+    top:225, left:178.5, right:0, height:25, 
+    active:true,
+    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
+    behavior: Behavior({
+                onTouchEnded() {
+                	settingScreen.moveBy(375,0);
+         			settingScreenOn = false;
+                    transition(connectScreen);
+                }
+    })})  
+    
+let deviceSetting = new Label({
+            string: "Device",
+            active:true,
+            left: 200,
+            top:220,
+            style: suggestTextStyle,
+            behavior: Behavior({
+                onTouchEnded() {
+                	settingScreen.moveBy(375,0);
+         			settingScreenOn = false;
+                    transition(connectScreen);
+                }
+            })
+        })  
+        
+         
+
+let currentScentUI  = new Line({
+    top:275, left:178.5, right:0, height:25, 
+    active:true,
+    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
+    behavior: Behavior({
+                onTouchEnded() {
+                	settingScreen.moveBy(375,0);
+         			settingScreenOn = false;
+                    transition(connectScreen);
+                }
+    })})  
+    
+let currentScentSetting = new Label({
+            string: "Current Scent",
+            active:true,
+            left:200,
+            top:270,
+            style: suggestTextStyle,
+            behavior: Behavior({
+                onTouchEnded(content, id,x,y,ticks) {
+                    var d = new Date();
+                    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                    var suffix = "am";
+                    var hour = d.getHours();
+                    selected_i = d.getHours();
+                    selected_j = d.getDay();
+                    if (selected_j < 0) {
+                        selected_j += 7;
+                    }
+                    if (hour > 12) {
+                        suffix = "pm";
+                        hour -= 12;
+                    }
+                    if (hour == 0) {
+                        hour = 12;
+                    }
+                    var filler = "";
+                    if (d.getMinutes() < 10) {
+                        filler = "0";
+                    }
+                    timeStatus.string = "Currently " + days[selected_j] + " at " + hour + ":" + filler + d.getMinutes() + " " + suffix;
+                    settingScreen.moveBy(375,0);
+         			settingScreenOn = false;
+                    transition(currentStateScreen);
+                }
+            })
+        })  
+
+let settingScreen = new Container({left: 375, width: 375, height: 667, active:true, skin: new Skin({fill: "white"}),
+									contents: [calendarBlur, settingUI, settingString, logo, deviceUI, deviceSetting,
+									currentScentUI, currentScentSetting]})
+let settingScreenOn = false
+let settingButton = new Picture({
+     url: "./aromify_setting.jpg",
+     right: 20,top:10,
+     width: 30,height:30,
+     active: true,     behavior: Behavior({
+         onTouchEnded(content, id,x,y,ticks) {
+         	if (settingScreenOn == false) {
+         		settingScreen.moveBy(-375,0);
+         		settingScreenOn = true;
+         	}
+         	else {
+         		settingScreen.moveBy(375,0);
+         		settingScreenOn = false;
+         	}
+		 }      
+     })
+})
 
 let timeStatus = new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
 
@@ -870,8 +1005,7 @@ currentStateScreen = new Container({
         new header({left:"<", right:"", title:"Add a Scent!", touchRightFxn: returnToCal}),
         timeStatus,
         group4,
-        scents,
-        //plusButton
+        scents
     ]
 });
 modifyStateScreen = new Container({
@@ -887,10 +1021,11 @@ calendarScreen = new Container({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"<", right:"", title:"Schedules", touchRightFxn: nullFxn}),
+        new header({left:"", right:"", title:"Schedules", touchRightFxn: nullFxn}),
         scheduleColumn,
         timeColumn,
-        //plusButton
+        settingButton,
+        settingScreen
     ]
 });
 suggestYouScreen = new Container({

@@ -41,6 +41,7 @@ let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AE
 let scentNow = "";
 let durationNow = "";
 let intensityNow = "";
+let colorNow = "";
 let settingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "#66AEF2" });
 
 var currentScent = "";
@@ -543,6 +544,7 @@ export function returnToCal(duration=1, del=false) {
     	updateDeviceScent(currentScentString);
     	updateDeviceDuration(timeHour);
     	updateDeviceIntensity(intensity);
+    	updateDeviceColor(currentColor);
         if (has_scent[selected_j][selected_i] == true) {
             var prev_i = selected_i - 1;
             var prev_j = selected_j;
@@ -1120,6 +1122,11 @@ function updateDeviceDuration(s) {
 	var handler = new Handler("/");
 	handler.invoke(new Message(deviceURL + "updateDuration"));
 }
+function updateDeviceColor(s) {
+	colorNow = s;
+	var handler = new Handler("/");
+	handler.invoke(new Message(deviceURL + "updateColor"));
+}
 
 Handler.bind("/getScent", Behavior({
     onInvoke: function(handler, message){;
@@ -1138,6 +1145,13 @@ Handler.bind("/getDuration", Behavior({
     onInvoke: function(handler, message){
     	//trace("invoked1\n");
         message.responseText = durationNow;
+		message.status = 200;
+    }
+}));
+Handler.bind("/getColor", Behavior({
+    onInvoke: function(handler, message){
+    	//trace("invoked1\n");
+        message.responseText = colorNow;
 		message.status = 200;
     }
 }));

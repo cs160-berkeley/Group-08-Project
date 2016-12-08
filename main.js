@@ -898,7 +898,7 @@ let settingUI  = new Line({
                 onTouchEnded() {
                 	settingScreen.moveBy(375,0);
          			settingScreenOn = false;
-                    transition(connectScreen);
+                    
                 }})
 })
 

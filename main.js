@@ -893,7 +893,14 @@ let logo = new Picture({
 })
 let settingUI  = new Line({
     top:0, left:175, right:0, height:50, 
-    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"})})
+    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
+    behavior: Behavior({
+                onTouchEnded() {
+                	settingScreen.moveBy(375,0);
+         			settingScreenOn = false;
+                    transition(connectScreen);
+                }})
+})
 
 let settingString = new Label({
 			string: "Settings",

@@ -36,6 +36,9 @@ let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background colo
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
 let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AEF2" });
+let scentNow = "";
+let durationNow = "";
+let intensityNow = "";
 
 var currentScent = "";
 var currentScentString = "";
@@ -951,10 +954,38 @@ Handler.bind("/forget", Behavior({
     }
 }));
 
+function updateDeviceScent(s) {
+	var handler = new Handler("/");
+	handler.invoke(new Message(deviceURL + "updateScent"));
+}
+function updateDeviceIntensity(s) {
+	var handler = new Handler("/");
+	handler.invoke(new Message(deviceURL + "updateIntensity"));
+}
+function updateDeviceDuration(s) {
+	var handler = new Handler("/");
+	handler.invoke(new Message(deviceURL + "updateDuration"));
+}
+
 Handler.bind("/getScent", Behavior({
-    onInvoke: function(handler, message, text){
-    	trace("invoked\n");
-        message.responseText = "test";
+    onInvoke: function(handler, message){
+    	//trace("invoked1\n");
+        message.responseText = scentNow;
+		message.status = 200;
+    }
+}));
+Handler.bind("/getIntensity", Behavior({
+    onInvoke: function(handler, message){
+    	//trace("invoked1\n");
+        message.responseText = intensityNow;
+		message.status = 200;
+    }
+}));
+Handler.bind("/getDuration", Behavior({
+    onInvoke: function(handler, message){
+    	//trace("invoked1\n");
+        message.responseText = durationNow;
+		message.status = 200;
     }
 }));
 

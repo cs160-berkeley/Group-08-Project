@@ -40,7 +40,7 @@ export var isCurrentScent = 0;
 export var currentColor = whiteBorderSkin;
 export var saveSkin = orange;
 
-let intensity = 50;
+export var intensity = 50;
 export var timeHour = 4;
 let timeMinute = 30;
 let timeLabel = Label.template($ => ({style: new Style({color: "black", font: "28px"}), left: 75, top: 425, string: timeHour + " hrs" }));//":" + timeMinute}));

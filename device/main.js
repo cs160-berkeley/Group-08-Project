@@ -6,15 +6,15 @@ let duration = "0";Handler.bind("/discover", Behavior({    onInvoke: function
 		//handler.invoke(new Message(deviceURL + "discover"));        trace(deviceURL + "\n");
         trace("discovered device\n");    }}));Handler.bind("/respond", Behavior({	onInvoke: function(handler, message){		message.status = 200;	}}));
 
-Handler.bind("updateScent", Behavior({	onInvoke: function(handler, message){
+Handler.bind("/updateScent", Behavior({	onInvoke: function(handler, message){
 		handler.invoke(new Message(deviceURL + "getScent"), Message.TEXT);	},
 	onComplete: function(handler, message, text){        scent = text;
-        currentScent.string = scent;    }}));
-Handler.bind("updateIntensity", Behavior({	onInvoke: function(handler, message){
+        currentScent.string = text;    }}));
+Handler.bind("/updateIntensity", Behavior({	onInvoke: function(handler, message){
 		handler.invoke(new Message(deviceURL + "getIntensity"), Message.TEXT);	},
 	onComplete: function(handler, message, text){        intensity2 = text + "%";
         intensity.string = intensity2;    }}));
-Handler.bind("updateDuration", Behavior({	onInvoke: function(handler, message){
+Handler.bind("/updateDuration", Behavior({	onInvoke: function(handler, message){
 		handler.invoke(new Message(deviceURL + "getDuration"), Message.TEXT);	},
 	onComplete: function(handler, message, text){        duration = text;
         time.string = text;    }}));Pins.repeat("/led/read", 1000, function(result) {   if (result) {   	  trace("led on\n");      new Message(deviceURL + "getScent").invoke(Message.TEXT).then(TEXT =>       {currentScent.string = scent;});   }});var currentScent = new Label({		top: 75, left: 0, right: 0, string: scent, style: textStyle});var time = new Label({		top: 130, left: 0, right: 0, string: duration + " hours", style: textStyle});var intensity = new Label({		top: 185, left: 0, right: 0, string: intensity2, style: textStyle});var MainContainer = new Container({    top: 0, bottom: 0, left: 0, right: 0,    skin: lgreen,    contents: [        new Label({            top: 5, left: 70, right: 70,            style: titleStyle,  string: "Aromafy Device",        }),        new Label({            top: 50, left: 70, right: 70,            style: textStyle,  string: "Current Scent:",        }),        currentScent,        new Label({            top: 105, left: 70, right: 70,            style: textStyle,  string: "Time Remaining:",        }),        time,        new Label({            top: 160, left: 70, right: 70,            style: textStyle,  string: "Intensity:",        }),        intensity    ],});class AppBehavior extends Behavior {    onLaunch(application) {    	application.shared = true;    	application.add(MainContainer);    	application.discover("app.project.kinoma.marvell.com");    	Pins.configure({            led: {                require: "Digital",                pins: {                    ground: { pin: 51, type: "Ground" },                    digital: { pin: 52, direction: "output" },                }            },            },  success => {            if (success) {                Pins.share("ws", {zeroconf: true, name: "pins-share-led"});                trace("Success!\n");            } else {				trace("Error\n");               };        });            }    onQuit(application) {    	application.shared = false;    }}application.behavior = new AppBehavior();

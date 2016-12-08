@@ -16,7 +16,7 @@
  */
 import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
-import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour} from "scentstate"
+import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour, intensity, currentScentString} from "scentstate"
 import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
 // TODO This is not the best scroller, it works but it covers up the header bar
 // Consider finding a better scroller if we need it (I'm not sure we do)
@@ -42,7 +42,7 @@ let intensityNow = "";
 let settingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "#66AEF2" });
 
 var currentScent = "";
-var currentScentString = "";
+//var currentScentString = "";
 var deviceURL = "";
 export var selectedCalendarCell;
 let selected_i=0;
@@ -207,6 +207,7 @@ let getStartedButton = new Container({
     ],
     behavior: Behavior({
         onTouchEnded(content,id,x,y,ticks) {
+        	var handler = new Handler("/");
             //TODO transition to home here
             //removeIntroScreen();
             mmc.remove(is);
@@ -524,6 +525,7 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
 //                 })
 
 export function returnToCal(duration=1, del=false) {
+	
     if (isCurrentScent == 0) {
         goBack();
         //transition(calendarScreen)
@@ -535,6 +537,9 @@ export function returnToCal(duration=1, del=false) {
         //transition(calendarScreen)
     }
     else {
+    	updateDeviceScent(currentScentString);
+    	updateDeviceDuration(timeHour);
+    	updateDeviceIntensity(intensity);
         if (has_scent[selected_j][selected_i] == true) {
             var prev_i = selected_i - 1;
             var prev_j = selected_j;
@@ -1090,21 +1095,23 @@ Handler.bind("/forget", Behavior({
 }));
 
 function updateDeviceScent(s) {
+	scentNow = s;
 	var handler = new Handler("/");
 	handler.invoke(new Message(deviceURL + "updateScent"));
 }
 function updateDeviceIntensity(s) {
+	intensityNow = s;
 	var handler = new Handler("/");
 	handler.invoke(new Message(deviceURL + "updateIntensity"));
 }
 function updateDeviceDuration(s) {
+	durationNow = s;
 	var handler = new Handler("/");
 	handler.invoke(new Message(deviceURL + "updateDuration"));
 }
 
 Handler.bind("/getScent", Behavior({
-    onInvoke: function(handler, message){
-    	//trace("invoked1\n");
+    onInvoke: function(handler, message){;
         message.responseText = scentNow;
 		message.status = 200;
     }

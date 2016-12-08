@@ -38,10 +38,13 @@ let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background colo
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
 let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AEF2" });
+let smallerSettingsTextStyle = new Style({ font: "25px Brandon Grotesque", color: "white" });
 let scentNow = "";
 let durationNow = "";
 let intensityNow = "";
 let settingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "#66AEF2" });
+let othersettingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "white" });
+
 
 var currentScent = "";
 //var currentScentString = "";
@@ -889,12 +892,12 @@ let calendarBlur = new Picture({
 })
 let logo = new Picture({
      url: "http://cdn.pocket-lint.com/r/c/742x526/assets/images/phpadneab.jpg", left: 220, top: 75,
-     height:120, width: 120
+     height:120, width: 120, borders: {left:3,right:3,top:3,bottom:3}, stroke: "white"
 })
 let settingUI  = new Line({
     top:0, left:175, right:0, height:50, 
     active:true,
-    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
+    skin: new Skin({fill: appTextColor, borders:{left:0,right:0,top:0,bottom:1}, stroke: "white"}),
     behavior: Behavior({
                 onTouchEnded() {
                 	settingScreen.moveBy(375,0);
@@ -907,13 +910,13 @@ let settingString = new Label({
 			string: "Settings",
 			top: 5,
 			right: 40,
-			style: settingTextStyle,
+			style: othersettingTextStyle,
 			})  
 			
 let deviceUI  = new Line({
     top:225, left:178.5, right:0, height:25, 
     active:true,
-    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
+    skin: new Skin({fill: appTextColor, borders:{left:0,right:0,top:0,bottom:1}, stroke: "white"}),// "#5ac8fa"}),
     behavior: Behavior({
                 onTouchEnded() {
                 	settingScreen.moveBy(375,0);
@@ -927,7 +930,7 @@ let deviceSetting = new Label({
             active:true,
             left: 200,
             top:220,
-            style: suggestTextStyle,
+            style: smallerSettingsTextStyle,// suggestTextStyle,
             behavior: Behavior({
                 onTouchEnded() {
                 	settingScreen.moveBy(375,0);
@@ -942,7 +945,7 @@ let deviceSetting = new Label({
 let currentScentUI  = new Line({
     top:275, left:178.5, right:0, height:25, 
     active:true,
-    skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
+    skin: new Skin({fill: appTextColor, borders:{left:0,right:0,top:0,bottom:1}, stroke: "white"}),// "#5ac8fa"}),
     behavior: Behavior({
                 onTouchEnded() {
                 	settingScreen.moveBy(375,0);
@@ -956,7 +959,7 @@ let currentScentSetting = new Label({
             active:true,
             left:200,
             top:270,
-            style: suggestTextStyle,
+            style: smallerSettingsTextStyle, //suggestTextStyle,
             behavior: Behavior({
                 onTouchEnded(content, id,x,y,ticks) {
                     var d = new Date();
@@ -987,10 +990,10 @@ let currentScentSetting = new Label({
             })
         })  
 
-let settingScreen = new Container({left: 375, width: 375, height: 667, active:true, skin: new Skin({fill: "white"}),
+let settingScreen = new Container({left: 375, width: 375, height: 667, active:true, skin: new Skin({fill: appTextColor}),
 									contents: [calendarBlur, settingUI, settingString, logo, deviceUI, deviceSetting,
 									currentScentUI, currentScentSetting]})
-let settingScreenOn = false
+let settingScreenOn = false;
 let settingButton = new Picture({
      url: "./aromify_setting.jpg",
      right: 20,top:10,

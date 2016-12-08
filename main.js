@@ -298,7 +298,7 @@ let connectedMenu = new Container({
 })
  
 let yourDevice = new Column({
-    bottom: 30,
+    bottom: 230,
     left:0,
     contents: [
         new Label({string: "Your Device", horizontal: "left", left:10, style: bluishLargerTextStyle}),
@@ -324,11 +324,12 @@ let yourDevice = new Column({
     ]
 })
 let goToCalendar = new Label({
-            		string: "Go to my Calendar!",
+            		string: "Continue >",
             		active:true,
-            		top:200,
+            		top:350, skin: new Skin({borders: {bottom: 2}, 
+    				stroke: "#66AEF2"}),
             		horizontal: "center",
-            		style: suggestTextStyle,
+            		style: settingTextStyle,
             		behavior: Behavior({
                 		onTouchEnded() {
                     	transition(calendarScreen);
@@ -867,7 +868,7 @@ let timeColumn = new Column({
 //     })
 // })
 let calendarBlur = new Picture({
-     url: "./calendar_blur.png", left:0,
+     url: "./calendarblur.png", left:0, width: 178.5,
      active: true,     behavior: Behavior({
          onTouchEnded(content, id,x,y,ticks) {
          	settingScreen.moveBy(375,0);
@@ -891,7 +892,7 @@ let settingString = new Label({
 			})  
 			
 let deviceUI  = new Line({
-    top:225, left:175, right:0, height:25, 
+    top:225, left:178.5, right:0, height:25, 
     active:true,
     skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
     behavior: Behavior({
@@ -920,7 +921,7 @@ let deviceSetting = new Label({
          
 
 let currentScentUI  = new Line({
-    top:275, left:175, right:0, height:25, 
+    top:275, left:178.5, right:0, height:25, 
     active:true,
     skin: new Skin({fill: "white", borders:{left:0,right:0,top:0,bottom:1}, stroke: "#5ac8fa"}),
     behavior: Behavior({

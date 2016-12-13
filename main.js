@@ -18,10 +18,6 @@ import Pins from "pins";
 import {VerticalScroller} from "scroller"; 
 import {scents, group4, tempIntensityLabel, tempTimeLabel, isCurrentScent, currentColor, saveSkin, timeHour, intensity, currentScentString} from "scentstate"
 import {scentsM, group4M, tempIntensityLabelM, tempTimeLabelM} from "modifystate";
-// TODO This is not the best scroller, it works but it covers up the header bar
-// Consider finding a better scroller if we need it (I'm not sure we do)
-// Scroller is only necessary for the calendar I believe
-
 let appTextColor = "#66AEF2";
 let basicTextStyle = new Style({ font: "24px Brandon Grotesque", color: "black" });
 let slightlyLargerBasicTextStyle = new Style({ font: "30px Brandon Grotesque", color: "black" });
@@ -32,9 +28,9 @@ let headerSymbolStyle = new Style({ font: "bold italic 50px Brandon Grotesque", 
 let elemTextStyle = new Style({ font: "20px Brandon Grotesque", color: "#3c4241"});
 let elem1TextStyle = new Style({ font: "25px Brandon Grotesque", color: "#3c4241"});
 let elem2TextStyle = new Style({ font: "25px Brandon Grotesque", color: "#86BD3E"});
-let elemLinkStyle = new Style({ font: "italic 14px Brandon Grotesque", color: "#007aff"}); //this is the apple Link color
+let elemLinkStyle = new Style({ font: "italic 14px Brandon Grotesque", color: "#007aff"}); 
 let mainTextStyle = new Style({ font: "bold italic 80px Brandon Grotesque", color: "white"});
-let backgroundGray = new Skin({fill: "#FFFFFF"}) //default apple background color #efeff4
+let backgroundGray = new Skin({fill: "#FFFFFF"}) 
 let scentText = new Style({ font: "24px Brandon Grotesque", color: "white" });
 let scentTextStyle = new Style({ font: "20px Brandon Grotesque", color: "white"});
 let suggestTextStyle = new Style({ font: "25px Brandon Grotesque", color: "#66AEF2" });
@@ -46,9 +42,7 @@ let colorNow = "";
 let settingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "#66AEF2" });
 let othersettingTextStyle = new Style({ font: "40px Brandon Grotesque", color: "white" });
 
-
 var currentScent = "";
-//var currentScentString = "";
 var deviceURL = "";
 export var selectedCalendarCell;
 let selected_i=0;
@@ -57,7 +51,6 @@ let selectedDay = "Sup";
 let selectedTime = "";
 let remotePins;
 
-//Theme Colors
 let orange = new Skin({fill: "#ff9900"});
 let lgreen = new Skin({fill: "#86BD3E"});
 var lblue = new Skin({fill: "#66AEF2"});
@@ -120,7 +113,6 @@ let HomeScreen = Column.template( $ => ({
             horizontal: "center",
             behavior: Behavior({
                 onTouchEnded(content, id,x,y,ticks) {
-                    //calendarScreen = new scheduleTemp();
                     transition(calendarScreen);
                 }
             })
@@ -159,34 +151,6 @@ let HomeScreen = Column.template( $ => ({
                 }
             })
         }),
-        // new Label({
-        //     string: "suggest scent screen",
-        //     active:true,
-        //     top:15, width: 260, height: 40,
-        //     horizontal: "center",
-        //     skin: lgreen,
-        //     style: largerTextStyle,
-        //     behavior: Behavior({
-        //         onTouchEnded(content, id,x,y,ticks) {
-        //             transition(suggestYouScreen);
-        //         }
-        //     })
-        // }),
-        /*,
-        new Label({
-            string: "Create a Scent",
-            active:true,
-            top:15, width: 260, height: 40,
-            style: largerTextStyle,
-            horizontal: "center",
-            skin: lgreen,
-            behavior: Behavior({
-                onTouchEnded(content, id,x,y,ticks) {
-                    transition(newScentScreen);
-                }
-            })
-        })*/
-        
     ]
 }))
  
@@ -202,9 +166,8 @@ let IntroScreen = Container.template($ => ({
     ]
 }));
  
-//TODO This make this look good
 let getStartedButton = new Container({
-    bottom:60, //TODO Might need to add other constraints
+    bottom:60, 
     width:150,height:30,
     skin: new Skin({fill: "white"}),
     active:true,
@@ -214,8 +177,6 @@ let getStartedButton = new Container({
     behavior: Behavior({
         onTouchEnded(content,id,x,y,ticks) {
         	var handler = new Handler("/");
-            //TODO transition to home here
-            //removeIntroScreen();
             mmc.remove(is);
             mmc.add(connectScreen);
             currentScreen = connectScreen;
@@ -238,7 +199,6 @@ let header = Line.template($ => ({
                 active:true,
                 behavior: Behavior({
                     onTouchEnded(content,id,x,y,ticks) {
-                        //TODO what to do when left header clicked
                         goBack()
                     }
                 })
@@ -266,7 +226,6 @@ let header = Line.template($ => ({
 
                 behavior: Behavior({
                     onTouchEnded(content,id,x,y,ticks) {
-                        //TODO what to do when right header clicked
                         if ($.touchRightFxn) {
                             $.touchRightFxn()
                         }
@@ -296,22 +255,13 @@ let connectedMenu = new Container({
     active:true,
     contents: [
         new Label({ style: basicTextStyle, string: "John's Aroma Dispenser"})
-    ]/*,
-    behavior: Behavior ({
-        onTouchEnded(content,id,x,y,ticks) {
-            content.container.container.remove(yourDevice);
-            content.container.add(expandedConnectMenu);
-            content.container.container.add(yourDevice);
-            content.container.remove(content);
-        }
-    })*/
+    ]
 })
  
 let yourDevice = new Column({
     top: 60,
     left:0, right:0,
     contents: [
-        //new Label({string: "Your Device", left: 125, style: bluishLargerTextStyle}),
         new Container({
             top:0,bottom:0,left:0,right:0,
             contents: [
@@ -324,7 +274,6 @@ let yourDevice = new Column({
                     contents: [
                         new Label({string: "Status:", style: elem1TextStyle}),
                         new Label({string: " Connected", style: elem2TextStyle}),
-                        //new Label({string: "After the rain, until 5:30pm", left:20, style: elemTextStyle}),
                     ]
                 })
             ]
@@ -352,12 +301,10 @@ let expandedConnectMenu = new Column({
     active:true,
     contents: [
         new deviceEntry({name: "John's Aroma Dispenser", dist:5, status: "Remembered"}),
-        //new deviceEntry({name: "Neighbor's Aroma dispenser", dist: 200, status: "Password protected"})
     ],
     behavior: Behavior ({
         onTouchEnded(content,id,x,y,ticks) {
             if (hasConnectedDevice) {
-                //content.container.container.remove(yourDevice);
             }
             content.container.add(connectedMenu);
             content.container.add(yourDevice);
@@ -372,14 +319,7 @@ let ConnectScreen = Column.template( $ => ({
     top:0,bottom:0,left:0,right:0,
     skin: backgroundGray,
     contents: [
-        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),/*
-        new Label({
-            string: "Device Link",
-            top:20,
-            height:40,
-            style: new Style({ font: "34px", color: appTextColor}),
-            horizontal: "center"
-        }),*/
+        new header({left:"", right:"", title:"Device Connect", touchRightFxn: nullFxn}),
         new Container({
             name: "connectMenu",
             top: 70,
@@ -400,8 +340,6 @@ let ConnectScreen = Column.template( $ => ({
     ]
 }));
  
-//create a label with label = new lbl({str: "some string", style: someStyle, touchFxn: uncalledFxn (if any)}) 
-// Also include params to the touch function in the label params
 let lbl = Label.template($ => ({
     left:10,
     string: $.str,
@@ -415,16 +353,14 @@ let lbl = Label.template($ => ({
 }));
  
 function nullFxn() {
-    //do nothing
 }
  
-//TODO generally customize this modal window (size, position, message, style)
 let Modal = Column.template($ => ({
-    bottom: 200,//TODO change this value as desired
+    bottom: 200,
     skin: new Skin({fill:"white"}),
     contents: [
         new Container({
-            height:50, width:200, //TODO change values
+            height:50, width:200, 
             skin: new Skin({fill:"white"}),
             contents: [
                 new Label({string: $.string, style: basicTextStyle}),
@@ -432,16 +368,14 @@ let Modal = Column.template($ => ({
             ]
         }),
         new Line({
-            height:40,width:200, //TODO change values
+            height:40,width:200, 
             skin: lblue,
             active: true,
             contents: [
                 new Label({string: "Okay!", style: headerTextStyle, left:0,right:0})
-                //TODO change this string
             ],
             behavior: Behavior({
                 onTouchEnded(content,id,x,y,ticks) {
-                    //TODO what to do when bar at bottom of modal is clicked
                 }
             })
         }),
@@ -452,9 +386,6 @@ function transition(destination) {
     screenStack.push(currentScreen);
     mmc.remove(currentScreen);
     mmc.add(destination);
-    if (destination == connectScreen && hasConnectedDevice) {
-    	//destination.add(yourDevice);
-    }
     currentScreen = destination;
 }
  
@@ -473,7 +404,6 @@ export function goBack() {
         currentScreen = hs;
     }
     mmc.add(currentScreen);
-    //scheduleItem.skin=pinkBorderSkin;
 }
  
 let mmc = mainMainContainer;
@@ -491,13 +421,6 @@ application.add(mmc);
 mmc.add(is)
 currentScreen = is;
 
-// let isCurrentScent = 0;
-// let currentColor = whiteBorderSkin;
-// let saveSkin = orange;
-
- 
-   
-// schedule of the device
 var greenSkin = new Skin({fill: "green"});
 var redSkin = new Skin({fill: "red"});
 var blueSkin = new Skin({fill: "blue"});
@@ -517,31 +440,21 @@ var scheduleItem = Container.template($ => ({active: true, left: 0, right: 0, to
                             if (has_scent[selected_j][selected_i]){
                             	transition(modifyStateScreen);
                             } else {
-                            	transition(currentStateScreen);// suggestYouScreen);
+                            	transition(currentStateScreen);
                             }
                         }
                     })
                 }))
-// var scheduleItem2 = new Container({active: true, left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin, 
-//                     behavior: Behavior({
-//                         onTouchEnded(content, id,x,y,ticks) {
-//                             transition(currentStateScreen);
-//                             selectedCalendarCell = content;
-//                         }
-//                     })
-//                 })
 
 export function returnToCal(duration=1, del=false) {
 	
     if (isCurrentScent == 0) {
         goBack();
-        //transition(calendarScreen)
         return;
     }
     if (del == true) {
         remove_scent(selected_i, selected_j);
         goBack();
-        //transition(calendarScreen)
     }
     else {
     	updateDeviceScent(currentScentString);
@@ -564,7 +477,6 @@ export function returnToCal(duration=1, del=false) {
         starts_scent[selected_j][selected_i] = true;
         has_scent[selected_j][selected_i] = true;
         goBack();
-        //transition(calendarScreen)
     }
     if (currentScreen != calendarScreen) {
         transition(calendarScreen);
@@ -725,87 +637,9 @@ let scheduleColumn = new Column({
             ]
         }),
     ]
-         
-    //     new Line({left: 0, right: 0, top: 0, bottom: 0, //skin: pink,
-    //         contents: [
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             // scheduleItem2,
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //         ]
-    //     }),
-        
-    //     new Line({left: 0, right: 0, top: 0, bottom: 0, //skin: pinkBorderSkin, 
-    //         contents: [
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //         ]
-    //     }),
-        
-    //     new Line({left: 0, right: 0, top: 0, bottom: 0, //skin: whiteBorderSkin,
-    //         contents: [
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //         ]
-    //     }),
-         
-          
-    //     new Line({left: 0, right: 0, top: 0, bottom: 0, //skin: pinkBorderSkin, 
-    //         contents: [
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             new scheduleItem({}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //             // new Content({left: 0, right: 0, top: 0, bottom: 0, skin: whiteBorderSkin}),
-    //         ]
-    //     }), 
-    // ]
 });
 
-//let cal_columns = [7];
-let calendar_blocks = new Array(7); //indexed [day][hour] where hour in 0...23
+let calendar_blocks = new Array(7); 
 let starts_scent = Array(7);
 let ends_scent = Array(7);
 let has_scent = Array(7);
@@ -823,7 +657,6 @@ function setup_cal() {
         let line = new Line({top:0,bottom:0,left:0,right:0, contents:[]})
         for (j = 0; j < 7; j++) {
             let block = new scheduleItem({i:i,j:j});
-            //cal_columns[j] = block;
             calendar_blocks[j][i] = block;
             starts_scent[j][i] = false;
             ends_scent[j][i] = false;
@@ -867,22 +700,6 @@ let timeColumn = new Column({
 
 })
 
-// let plusButton = new Picture({
-//     url: "./plus_blue.png",
-//     right: 5,bottom:5,
-//     width: 60,height:60,
-//     active: true,
-//     behavior: Behavior({
-//         onTouchBegan: function(container) {
-//             application.distribute("onToggleLight", 1);
-//         },
-//         onTouchEnded(content, id,x,y,ticks) {
-//             application.distribute("onToggleLight", 0);
-//             returnToCal(timeHour);  
-//             transition(calendarScreen);
-//         }
-//     })
-// })
 let calendarBlur = new Picture({
      url: "./calendarblur.png", left:0, width: 178.5,
      active: true,     behavior: Behavior({
@@ -932,7 +749,7 @@ let deviceSetting = new Label({
             active:true,
             left: 200,
             top:220,
-            style: smallerSettingsTextStyle,// suggestTextStyle,
+            style: smallerSettingsTextStyle,
             behavior: Behavior({
                 onTouchEnded() {
                 	settingScreen.moveBy(375,0);
@@ -961,7 +778,7 @@ let currentScentSetting = new Label({
             active:true,
             left:200,
             top:270,
-            style: smallerSettingsTextStyle, //suggestTextStyle,
+            style: smallerSettingsTextStyle, 
             behavior: Behavior({
                 onTouchEnded(content, id,x,y,ticks) {
                     var d = new Date();
@@ -1016,8 +833,6 @@ let settingButton = new Picture({
 
 let timeStatus = new Label({style: new Style({color: "black", font: "28px Brandon Grotesque"}),  left: 0, right: 0, top: 350, string:""}) 
 
-
-//application.add(group4);\
 
 currentStateScreen = new Container({
     top:0,bottom:0,left:0,right:0,
@@ -1139,21 +954,18 @@ Handler.bind("/getScent", Behavior({
 }));
 Handler.bind("/getIntensity", Behavior({
     onInvoke: function(handler, message){
-    	//trace("invoked1\n");
         message.responseText = intensityNow;
 		message.status = 200;
     }
 }));
 Handler.bind("/getDuration", Behavior({
     onInvoke: function(handler, message){
-    	//trace("invoked1\n");
         message.responseText = durationNow;
 		message.status = 200;
     }
 }));
 Handler.bind("/getColor", Behavior({
     onInvoke: function(handler, message){
-    	//trace("invoked1\n");
         message.responseText = colorNow;
 		message.status = 200;
     }

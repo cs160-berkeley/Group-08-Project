@@ -1,14 +1,11 @@
-//@program/* *     Copyright (C) 2010-2016 Marvell International Ltd. *     Copyright (C) 2002-2010 Kinoma, Inc. * *     Licensed under the Apache License, Version 2.0 (the "License"); *     you may not use this file except in compliance with the License. *     You may obtain a copy of the License at * *      http://www.apache.org/licenses/LICENSE-2.0 * *     Unless required by applicable law or agreed to in writing, software *     distributed under the License is distributed on an "AS IS" BASIS, *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *     See the License for the specific language governing permissions and *     limitations under the License. */let Pins = require("pins");let backgroundSkin = new Skin({ fill:'white' });//let lgreen = new Skin({fill: "#86BD3E"});let titleStyle = new Style({ font: "40px Brandon Grotesque", color: "white" });let textStyle = new Style({ font: "34px Brandon Grotesque", color: "white" });var deviceURL = "";
+//@program/* *     Copyright (C) 2010-2016 Marvell International Ltd. *     Copyright (C) 2002-2010 Kinoma, Inc. * *     Licensed under the Apache License, Version 2.0 (the "License"); *     you may not use this file except in compliance with the License. *     You may obtain a copy of the License at * *      http://www.apache.org/licenses/LICENSE-2.0 * *     Unless required by applicable law or agreed to in writing, software *     distributed under the License is distributed on an "AS IS" BASIS, *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *     See the License for the specific language governing permissions and *     limitations under the License. */let Pins = require("pins");let backgroundSkin = new Skin({ fill:'white' });let titleStyle = new Style({ font: "40px Brandon Grotesque", color: "white" });let textStyle = new Style({ font: "34px Brandon Grotesque", color: "white" });var deviceURL = "";
 let scent = "none";
 let intensity2 = "0%";
 let duration = "0";
 let color = "#86BD3E";
-
-
-// setting background color to be same as the scent
 Handler.bind("/discover", Behavior({    onInvoke: function(handler, message){        deviceURL = JSON.parse(message.requestText).url;
         application.discover("app.project.kinoma.marvell.com");
-		//handler.invoke(new Message(deviceURL + "discover"));        trace(deviceURL + "\n");
+        trace(deviceURL + "\n");
         trace("discovered device\n");    }}));Handler.bind("/respond", Behavior({	onInvoke: function(handler, message){		message.status = 200;	}}));
 
 Handler.bind("/updateScent", Behavior({	onInvoke: function(handler, message){
